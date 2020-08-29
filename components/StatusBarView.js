@@ -1,84 +1,105 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect,useState} from 'react';
 import ThemeContext from '../themeContext';
-import {
-    LineChart,
-    BarChart,
-    // PieChart,
-    // ProgressChart,
-    // ContributionGraph,
-    // StackedBarChart
-  } from "react-native-chart-kit";
+import { View } from 'react-native';
+import { VictoryChart,VictoryGroup,VictoryBar,VictoryLegend,VictoryAxis,VictoryTheme } from "victory-native";
 import { Dimensions } from "react-native";
+import Svg, { G } from 'react-native-svg';
 const screenWidth = Dimensions.get("window").width;
 const StatusBarView = (props) => {
     const theme = useContext(ThemeContext);
     const { primaryColor } = theme.palette;
-    // const data = {
-    //     labels: ["January", "February", "March", "April", "May", "June"],
-    //     datasets: [
-    //         {
-    //         data: [20, 45, 28, 80, 99, 43],
-    //         color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // optional
-    //         strokeWidth: 3 // optional
-    //         }
-    //     ],
-    //     legend: ["Rainy Days"] // optional
-    // };
-      
-    const chartConfig = {
-        backgroundColor: primaryColor,
-          backgroundGradientFrom: primaryColor,
-          backgroundGradientTo: primaryColor,
-          decimalPlaces: 2, // optional, defaults to 2dp
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          style: {
-            borderRadius: 16
-          },
-          propsForDots: {
-            r: "6",
-            strokeWidth: "2",
-            stroke: primaryColor
-          },
-        // backgroundGradientFrom: "#3f51b5",
-        // backgroundGradientFromOpacity: 1,
-        // backgroundGradientTo: "#3f51b5",
-        // backgroundGradientToOpacity: 1,
-        // color: (opacity = 0) => `rgba(63, 81, 181, ${opacity})`,
-        // strokeWidth: 3, // optional, default 3
-        // barPercentage: 1,
-        // useShadowColorFromDataset: false // optional
-      };
-      const data = {
-        labels: ["January", "February", "March", "April", "May", "June"],
-        datasets: [
-          {
-            data: [20, 45, 28, 80, 99, 43],
-            color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-            strokeWidth: 2 // optional
+    const [creditsData, setCreditsData] = useState([]);
+    const [debitsData, setDebitsData] = useState([]);
+    const banks = Object.keys(props.transactions);
+    useEffect(()=>{
+      var data = [];
+      if(banks.length){
+        banks.map((item,index) => {
+          var obj = {};
+          obj.bank = item;
+          obj.credits = props.transactions[item].credits.length && props.transactions[item].credits.reduce((a,b) => a+b);
+          obj.debits = props.transactions[item].debits.length && props.transactions[item].debits.reduce((a,b) => a+b);
+          data.push(obj)
+        });
+        var creditsArr = data.map((item) => {
+          return {
+            x:item.bank,
+            y:item.credits
           }
-        ],
-        legend: ["Rainy Days"] // optional
-      };
-  //   return <BarChart
-  //   data={data}
-  //   width={screenWidth}
-  //   height={220}
-  //   withInnerLines={false}
-  //   //showBarTops={true}
-  //   showValuesOnTopOfBars={true}
-  //   yAxisLabel="$"
-  //   chartConfig={chartConfig}
-  //   verticalLabelRotation={30}
-  // />
-    return <LineChart
-    data={data}
-    width={screenWidth}
-    height={220}
-    fromZero={true}
-    withInnerLines={false}
-    chartConfig={chartConfig}
-  />
+        })
+        setCreditsData(creditsArr);
+        var debitsArr = data.map((item) => {
+          return {
+            x:item.bank,
+            y:item.debits
+          }
+        })
+        setDebitsData(debitsArr);
+      }
+    },[props.transactions])
+    return (
+      <View>
+      <Svg style={{backgroundColor:theme.dark.primaryColor}} viewBox={`0 0 ${screenWidth} 300`} height="240" width={screenWidth}>
+        <G>
+          <VictoryLegend x={125} y={10}
+            orientation="horizontal"
+            gutter={20}
+            x={0}
+            colorScale={[theme.dark.secondaryColor, theme.light.primaryColor]}
+            data={[
+              { name: "Credits",labels:{fill:theme.palette.primaryColor} }, { name: "Debits",labels:{fill:theme.palette.primaryColor} }
+            ]}
+          />
+          <VictoryChart>
+            <VictoryGroup offset={30} colorScale={[theme.dark.secondaryColor, theme.light.primaryColor]}>
+              <VictoryBar 
+                name="Credits"
+                style={{
+                  data: {
+                    width:20
+                  },
+                  labels:{
+                    fill: theme.dark.secondaryColor
+                  }
+                }}
+                labels={({ datum }) => {
+                  if (datum.y < 1e3) return datum.y;
+                  if (datum.y >= 1e3 && datum.y < 1e6) return +(datum.y / 1e3).toFixed(1) + "K";
+                  if (datum.y >= 1e6 && datum.y < 1e9) return +(datum.y / 1e6).toFixed(1) + "M";
+                  if (datum.y >= 1e9 && datum.y < 1e12) return +(datum.y / 1e9).toFixed(1) + "B";
+                  if (datum.y >= 1e12) return +(datum.y / 1e12).toFixed(1) + "T";
+                }}
+                data={creditsData}
+              />
+              <VictoryBar 
+                name="Debits"
+                style={{
+                  data: {
+                    width:20
+                  },
+                  labels:{
+                    fill: theme.light.primaryColor
+                  }
+                }}
+                labels={({ datum }) => {
+                  if (datum.y < 1e3) return datum.y;
+                  if (datum.y >= 1e3 && datum.y < 1e6) return +(datum.y / 1e3).toFixed(1) + "K";
+                  if (datum.y >= 1e6 && datum.y < 1e9) return +(datum.y / 1e6).toFixed(1) + "M";
+                  if (datum.y >= 1e9 && datum.y < 1e12) return +(datum.y / 1e9).toFixed(1) + "B";
+                  if (datum.y >= 1e12) return +(datum.y / 1e12).toFixed(1) + "T";
+                }}
+                data={debitsData}
+              />
+            </VictoryGroup>
+            <VictoryAxis crossAxis style={{
+              axis: {stroke: "none"},
+              tickLabels: {fontSize: 20,fill: theme.palette.primaryColor}
+            }}/> 
+          </VictoryChart>
+        </G>
+      </Svg>
+      </View>
+    );
 }
 
 export default StatusBarView;

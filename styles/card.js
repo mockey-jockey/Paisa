@@ -10,10 +10,15 @@ const card = (theme) => StyleSheet.create({
         justifyContent: 'space-between'
     },
     leftElements: {
-      
+        display:'flex',
+        flexDirection:'column',
+        alignItems: 'flex-start'
     },
     rightElements: {
-        
+        flex:1,
+        flexDirection:'column',
+        justifyContent: 'center',
+        alignItems: 'flex-end',
     },
 });
 export default card;

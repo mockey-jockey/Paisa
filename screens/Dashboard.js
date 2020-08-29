@@ -1,28 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import styles from '../styles/scanStyle';
-import card from '../styles/card';
+import React, { useState, useEffect,useContext } from 'react';
+import styles from '../styles/paisaStyle';
 import {
-  SafeAreaView,
-  FlatList,
+  Image,
   ScrollView,
   View,
   Text,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-
-import { Button, Card,Divider } from 'react-native-material-ui';
+import ThemeContext from '../themeContext';
+import { Button,Divider } from 'react-native-material-ui';
 import StatusBarView from '../components/StatusBarView';
 import HeaderView from '../components/HeaderView';
 import {getSMS} from '../utils/message';
-
 import Icon from 'react-native-vector-icons/FontAwesome';
+import BankNameObj from '../utils/bankNames';
 
 const Dashboard = (props) => {
   const [transactionDetails, setTransactionDetails] = useState({});
   const [lastSixMonths, setLastSixMonths] = useState([]);
-  const [lastSixMonthsExpanse, setLastSixMonthsExpanse] = useState([]);
+  const [lastSixMonthsExpanse, setLastSixMonthsExpanse] = useState({});
   const [selectedMonth, setSelectedMonth] = useState('');
-
+  const theme = useContext(ThemeContext);
   useEffect(() => {
     getLastSixMonthsData();
   },[]);
@@ -61,7 +59,7 @@ const Dashboard = (props) => {
 
       var previousSixthMonth = getMonth(month[0]);
       var start = startDay(today.getFullYear(),previousSixthMonth);
-      getTransactions(start,new Date().getTime(),month[month.length-1]);
+      getTransactions(start,new Date().getTime(),month);
     } catch(error) {
       console.log(`******${error}*******`);
     }
@@ -92,20 +90,21 @@ const Dashboard = (props) => {
         if(!bankList[bankName]){
           bankList[bankName] = {
             transactions : [],
-            income : [],
-            expanse : [],
-            withdrawn : []
+            credits : [],
+            debits : [],
+            balance : []
           }
         }
+        // if(bankName === "ICICI"){
+        //   console.log(item.message)
+        // }
         bankList[bankName].transactions.push(item);
+        bankList[bankName].balance.push(item);
         if(item.type === 'credited'){
-          bankList[bankName].income.push(item);
+          bankList[bankName].credits.push(item.amount);
         }
-        if(item.type === 'debited'){
-          bankList[bankName].expanse.push(item);
-        }
-        if(item.type === 'withdrawn'){
-          bankList[bankName].withdrawn.push(item);
+        if(item.type === 'debited' || item.type === 'withdrawn'){
+          bankList[bankName].debits.push(item.amount);
         }
     });
     setTransactionDetails(bankList);
@@ -135,33 +134,40 @@ const Dashboard = (props) => {
     }
   } 
 
-  const getLastSixMonthExpanse = (transactions) => {
+  const getLastSixMonthExpanse = (transactions,sixMonths) => {
       var expanse = [];
-      for(var i=0;i<lastSixMonths.length;i++){
+      console.log("****2*****",sixMonths);
+      for(var i=0;i<sixMonths.length;i++){
         var today = new Date();
-        var month = getMonth(lastSixMonths[i]);
+        var month = getMonth(sixMonths[i]);
         let minDate = startDay(today.getFullYear(),month);;
         let maxDate = new Date(today.getFullYear(),month, lastDay(today.getFullYear(),month));
         maxDate.setHours(23,59,59,999);
-        let expanseAmount = transactions.map((item) => {
+        var bankObj = {};
+        for(var j=0;j<transactions.length;j++){
+          var item = transactions[j];
           let bankName = item.accountDetails.bankName;
-          if(bankName === 'HDFC' && (item.type === 'debited'|| item.type === 'withdrawn') && (item.mode !== 'NEFT' || item.mode !== 'IMPS') && item.timestamp > minDate && item.timestamp < maxDate.getTime()){
-            return item.amount;
+          if(!bankObj[bankName]){
+            bankObj[bankName] = 0;
           }
-        });
-        expanse.push(expanseAmount.filter((item) => item).reduce((a,b) => a+b));
+          if((item.type === 'debited'|| item.type === 'withdrawn') && item.mode !== 'NEFT' && item.mode !== 'IMPS' && item.timestamp > minDate && item.timestamp < maxDate.getTime()){
+            bankObj[bankName] +=item.amount;
+          }
+        }
+        expanse.push(bankObj)
       }
-      
-      console.log(expanse);
+      console.log("****3*****")
+      console.log(expanse)
       setLastSixMonthsExpanse(expanse);
   }
 
   const getTransactions = (minDate,maxDate,month) => {
     getSMS(minDate,maxDate).then((data) => {
+      console.log("****1*****");
+      getLastSixMonthExpanse(data,month);
       _storeData(JSON.stringify(data));
-      getLastSixMonthExpanse(data);
       var today = new Date();
-      var lstMonth = getMonth(month);
+      var lstMonth = getMonth(month[month.length-1]);
       var start = startDay(today.getFullYear(),lstMonth);
       _retrieveData(start,today.getTime());
     }).catch((error)=>{
@@ -170,12 +176,12 @@ const Dashboard = (props) => {
   }
 
   // const renderItem = ({ item }) => {
-  //   return (<View style={card().cardViewStyle}>
-  //   <View style={card().leftElements}>
+  //   return (<View style={styles(theme).cardViewStyle}>
+  //   <View style={styles(theme).leftElements}>
   //     <Text style={{}}>{item.merchantName}</Text>
   //     <Text style={{}}>{item.date} <Text>{item.mode}</Text></Text>
   //   </View>
-  //   <View style={card().rightElements}>
+  //   <View style={styles(theme).rightElements}>
   //     <Text style={{textAlign:'right'}}>{item.amount} {item.type === "credited" && <Icon name="sort-down" />}{item.type === "debited" && <Icon name="sort-up"  />}</Text>
   //     <Text style={{textAlign:'right'}}>{item.accountDetails.type} <Text>{item.accountDetails.number}</Text></Text>
   //   </View>
@@ -191,13 +197,14 @@ const Dashboard = (props) => {
     props.route.params.theme('HDFC');
   }
 
-  const viewTransactions = (_this,item) => {
-    props.route.params.theme(item);
+  const viewTransactions = (_this,selectedBank) => {
+    props.route.params.theme(selectedBank);
     props.navigation.navigate('BankTransaction',{
       theme:props.route.params.theme,
       months: lastSixMonths,
       selectedMonth,
-      selectedBank: item
+      lastSixMonthsExpanse: JSON.stringify(lastSixMonthsExpanse.map((item) => item[selectedBank])),
+      selectedBank
     });
   }
   // <Button default text="Default" onPress={handlePress} />
@@ -207,40 +214,50 @@ const Dashboard = (props) => {
 
   const RenderMonths = () => {
     if(lastSixMonths.length){
-      return <View style={{display:'flex',flexDirection:'row',justifyContent:'space-around'}}>{lastSixMonths.map((item,index) => <Text primary testID={item} key={index} style={{display:'flex',justifyContent:'center',padding:10}} onPress={() => getTransactionsDate(this, item)}>{item}</Text>)}</View>
+      return <View style={styles(theme).monthView}>{lastSixMonths.map((item,index) => {
+        return (selectedMonth===item ? <Text primary testID={item} key={index} style={styles(theme).selectedMonth} onPress={() => setSelectedMonth(this, item)}>{item}</Text> : <Text primary testID={item} key={index} style={styles(theme).monthViewText} onPress={() => setSelectedMonth(this, item)}>{item}</Text>) 
+      })}</View>
     }
     return <Text></Text>;
   }
+  
   // <FlatList data={transactions} renderItem={renderItem} keyExtractor={item => item.index}/>
   const RenderBankTransactions = () => {
     const banks = Object.keys(transactionDetails)
     if(banks.length){
-      return (<View style={{flex:1}}>{banks.map((item,index) => {
+      return (<View style={styles(theme).flexView}>{banks.map((item,index) => {
         const transactions = transactionDetails[item].transactions.slice(0,5);
-        const balance = transactionDetails[item].expanse.map((item) => item.availBalance).filter(item => item);
-        return (<View style={{display:'flex',flexDirection:'column',marginBottom:banks.length-1 === index ? 0 : 10,backgroundColor:'#fff'}} key={index}>
-            <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between',padding:10}}>
-              <Text testID={item} key={index}>{item}</Text>
-              <Text testID={item} key={`${index} balance`}>{balance.length && balance[0]}</Text>
+        const balance = transactionDetails[item].balance.map((item) => item.availBalance).filter(item => item);
+        return (<View style={(banks.length-1 === index) ? styles(theme).lastTransactionsView : styles(theme).transactionsView} key={index}>
+            <View style={styles(theme).transactionsHeader}>
+              <Text testID={item} key={index} style={styles(theme).bankName}><Image
+              style={styles(theme).bankLogo}
+              source={BankNameObj[item].logo}
+            /> {BankNameObj[item].name}</Text>
+              <Text testID={item} style={styles(theme).bankBalance} key={`${index} balance`}>₹ {balance.length && balance[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
             </View>
             <Divider/>
             <View>
               {transactions.length && transactions.map((item,index) => {
-                return (<View key={index} style={card().cardViewStyle}>
-                <View style={card().leftElements}>
-                  <Text style={{}}>{item.merchantName}</Text>
-                  <Text style={{}}>{item.date} <Text>{item.mode}</Text></Text>
+                return (<View key={index} style={styles(theme).cardViewStyle}>
+                <View style={styles(theme).leftElements}>
+                  <Text style={styles(theme).textColor}>{item.merchantName}</Text>
+                  <Text style={styles(theme).flexView}><Text style={styles(theme).dateColor}>{item.date}</Text> <Text>{item.mode && <View style={styles(theme).chipView}><Text
+                  style={styles(theme).chipViewText}
+                >{item.mode}
+                </Text></View>}</Text></Text>
                 </View>
-                <View style={card().rightElements}>
-                  <Text style={{textAlign:'right'}}>{item.amount} {item.type === "credited" && <Icon name="sort-down" />}{item.type === "debited" && <Icon name="sort-up"  />}</Text>
-                  <Text style={{textAlign:'right'}}>{item.accountDetails.type} <Text>{item.accountDetails.number}</Text></Text>
+                <View style={styles(theme).rightElements}>
+                  <Text>₹ {item.amount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} <View style={styles(theme).transactionsTypeView}>{item.type === "credited" && <Icon name="sort-down" style={styles(theme).iconDown} />}{item.type === "debited" && <Icon name="sort-up" style={styles(theme).iconUp}/>}</View></Text>
+                  <Text>{item.accountDetails.type} <Text>{item.accountDetails.number}</Text></Text>
                 </View>
               </View>)
             })}
             </View>
             <Divider/>
-            <View style={{display:'flex',flexDirection:'row',justifyContent:'flex-end'}}>
-              <Button default icon={<Icon name="angle-double-right" size={20} color="#000" />} text=" View Transactions" onPress={() => viewTransactions(this,item)}/>
+            <View style={styles(theme).transactionsFooter}>
+              {/*<View style={{flex:1,alignContent:'center',alignItems:'center',alignSelf:'center',justifyContent:'center'}}><Icon name="angle-double-right" size={20} color={theme.dark.primaryColor} /></View>*/} 
+              <Text style={styles(theme).transactionsFooterTxt} onPress={() => viewTransactions(this,item)}>View Transactions</Text>
             </View>
           </View>)
       })
@@ -250,8 +267,8 @@ const Dashboard = (props) => {
   }
     
   return (
-    <View style={styles.scrollViewStyle}>
-        <StatusBarView />
+    <View style={styles(theme).container}>
+        <StatusBarView transactions={transactionDetails}/>
         <HeaderView />
         <View>
             <RenderMonths />

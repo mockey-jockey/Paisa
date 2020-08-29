@@ -1,34 +1,34 @@
 import React, {useState,useEffect,useContext} from 'react';
 import {
-  View,ScrollView,
+  View,ScrollView,Image,
   Text,LogBox,FlatList
 } from 'react-native';
-import card from '../styles/card';
-import {Picker} from '@react-native-community/picker';
-import { Button,Card,Divider } from 'react-native-material-ui';
-import StatusBarView from '../components/StatusBarView';
+import { Button,Divider } from 'react-native-material-ui';
+import StatusLineView from '../components/StatusLineView';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { BottomNavigation } from 'react-native-material-ui';
 import ThemeContext from '../themeContext';
-
+import BankNameObj from '../utils/bankNames';
+import styles from '../styles/paisaStyle';
+import { color } from 'react-native-reanimated';
 
 const BankTransaction = (props) => {
   const [transactionDetails, setTransactionDetails] = useState({});
   const [selectedValue, setSelectedValue] = useState(props.route.params.selectedMonth);
-  const [selectedDay, setSelectedDay] = useState();
+  const [selectedDay, setSelectedDay] = useState('All');
   const [dates, setDates] = useState([]);
   const [active, setActive] = useState('All');
   const theme = useContext(ThemeContext);
-  const { primaryColor } = theme.palette;
   const goBack = () => {
     props.route.params.theme('default');
     props.navigation.goBack();
   }
   LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
+    'componentWillReceiveProps has been renamed, and is not recommended for use.'
   ]);
-  
+
   useEffect(() => {
     getDates();
   },[selectedValue])
@@ -43,11 +43,12 @@ const BankTransaction = (props) => {
     const today = new Date();
     const month = getMonth(selectedValue);
     const lastDayOfMonth = new Date(today.getFullYear(), month +1, 0).getDate();
-    const values = [];
+    const values = ['All'];
     for(var i=1;i<=lastDayOfMonth;i++){
       values.push(i);
     }
     setDates(values);
+    console.log("***********ENter getDates******************")
     getTransactionsDate(null,'All');
   }
   const populateBankMessages = (transactions) => {
@@ -61,16 +62,18 @@ const BankTransaction = (props) => {
               income : [],
               expanse : [],
               others : [],
+              balance : []
             }
           }
           bankList[bankName].transactions.push(item);
+          bankList[bankName].balance.push(item);
           if(item.type === 'credited'){
             bankList[bankName].income.push(item);
-          }
-          if((item.type === 'debited' || item.type === 'withdrawn') && item.mode !== 'IMPS' && item.mode !== 'NEFT'){
+          }else if((item.type === 'debited' || item.type === 'withdrawn') && item.mode !== 'IMPS' && item.mode !== 'NEFT'){
             bankList[bankName].expanse.push(item);
-          }
-          if(item.type === 'debited' && item.mode === 'IMPS' && item.mode === 'NEFT'){
+          }else if(item.type === 'debited' && item.mode === 'IMPS' && item.mode === 'NEFT'){
+            bankList[bankName].others.push(item);
+          } else{
             bankList[bankName].others.push(item);
           }
         }
@@ -117,56 +120,72 @@ const BankTransaction = (props) => {
     if(currentMonth.indexOf(selectedValue) !== -1){
       disableDate = new Date().getDate();
     }
-
     if(dates.length){
-      return <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}  style={{display:'flex',flexDirection:'row'}}>
+      return <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}  style={styles(theme).scrollViewDates}>
         {dates.map((item,index) => {
-          if(!disableDate || disableDate >= item){
-            return (<Text primary key={index} style={{display:'flex',justifyContent:'center',padding:10}} onPress={() => getTransactionsDate(this, item)}>{item}</Text>)
+          if((!disableDate && selectedDay === item) || (disableDate && selectedDay === item)){
+            return (<Text primary key={index} style={styles(theme).selectedDates} onPress={() => getTransactionsDate(this, item)}>{item}</Text>)
+          }else if(!disableDate || disableDate >= item || item === 'All'){
+            return (<Text primary key={index} style={styles(theme).dates} onPress={() => getTransactionsDate(this, item)}>{item}</Text>)
           }else if(disableDate && disableDate < item){
-            return (<Text primary key={index} style={{display:'flex',justifyContent:'center',padding:10,color:'red'}}>{item}</Text>)
+            return (<Text primary key={index} style={styles(theme).disableDates}>{item}</Text>)
           }
         })}</ScrollView>
     }
     return <Text></Text>;
   }
   const renderItem = ({ item }) => {
-    return (<View style={card().cardViewStyle}>
-    <View style={card().leftElements}>
-      <Text style={{}}>{item.merchantName}</Text>
-      <Text style={{}}>{item.date} <Text>{item.mode}</Text></Text>
+    return (<View style={styles(theme).cardViewStyle}>
+    <View style={styles(theme).leftElements}>
+      <Text style={styles(theme).textColor}>{item.merchantName}</Text>
+      <Text style={styles(theme).flexView}><Text style={styles(theme).dateColor}>{item.date}</Text> <Text>{item.mode && <View style={styles(theme).chipView}><Text
+      style={styles(theme).chipViewText}
+    >{item.mode}
+    </Text></View>}</Text></Text>
     </View>
-    <View style={card().rightElements}>
-      <Text style={{textAlign:'right'}}>{item.amount} {item.type === "credited" && <Icon name="sort-down" />}{item.type === "debited" && <Icon name="sort-up"  />}</Text>
-      <Text style={{textAlign:'right'}}>{item.accountDetails.type} <Text>{item.accountDetails.number}</Text></Text>
+    <View style={styles(theme).rightElements}>
+      <Text>₹ {item.amount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} <View style={styles(theme).transactionsTypeView}>{item.type === "credited" && <Icon name="sort-down" style={styles(theme).iconDown} />}{item.type === "debited" && <Icon name="sort-up" style={styles(theme).iconUp}/>}</View></Text>
+      <Text>{item.accountDetails.type === 'account' && <Image
+        style={styles(theme).bankLogo}
+        source={BankNameObj[item.accountDetails.bankName].logo}
+      />}{item.accountDetails.type === 'card' && <Text style={{color:theme.dark.secondaryColor}}>card</Text>} <Text>{item.accountDetails.number}</Text></Text>
     </View>
   </View>)
   };
 
+  const NoTransactions = () => <View style={styles(theme).noTransactions}><Text style={styles(theme).noTransactionText}>No Transactions</Text></View>;
+
   const RenderBankTransactions = ({type}) => {
-    const banks = Object.keys(transactionDetails)
+    const banks = Object.keys(transactionDetails);
     if(banks.length){
-      return (<View style={{flex:1}}>{banks.map((item,index) => {
+      return (<View style={styles(theme).flexView}>{banks.map((item,index) => {
         const transactions = transactionDetails[item][type];
-        let total = transactions.map((item) => item.amount);
-        total = total.length ? total.reduce((a,b) => a+b) : 0;
-        const balance = transactionDetails[item].expanse.map((item) => item.availBalance).filter(item => item);
-        return (<View key={index} style={{flex:1,display:'flex',flexDirection:'column',backgroundColor:'#fff'}}>
-            <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between',padding:10}}>
-              <Text testID={item} key={index}>{item}</Text>
-              <Text testID={item} key={`${index} balance`}>{balance.length && balance[0]}</Text>
-            </View>
-            <Divider/>
-            <FlatList data={transactions} renderItem={renderItem} keyExtractor={item => item.index}/>
-            <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between',padding:10}}>
-              <Text key={`${index} total`}>Total</Text>
-              <Text key={`${index} amt`}>{total}</Text>
-            </View>
-          </View>)
+        if(transactions.length){
+          let total = transactions.map((item) => item.amount);
+          total = total.length ? total.reduce((a,b) => a+b) : 0;
+          const balance = transactionDetails[item].balance.map((item) => item.availBalance).filter(item => item);
+          return (<View key={index} style={{flex:1,display:'flex',flexDirection:'column',backgroundColor:'#fff'}}>
+                <View style={styles(theme).transactionsHeader}>
+                  <Text testID={item} key={index} style={styles(theme).bankName}><Image
+                  style={styles(theme).bankLogo}
+                  source={BankNameObj[item].logo}
+                /> {BankNameObj[item].name}</Text>
+                  <Text testID={item} style={styles(theme).bankBalance} key={`${index} balance`}>₹ {balance.length && balance[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
+              </View>
+              <Divider/>
+              <FlatList data={transactions} renderItem={renderItem} keyExtractor={item => item.index}/>
+              <View style={styles(theme).totalView}>
+                <Text key={`${index} total`} style={styles(theme).totalText}>Total</Text>
+                <Text key={`${index} amt`} style={styles(theme).totalValue}>₹ {total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
+              </View>
+            </View>)
+        }else{
+          return <NoTransactions key={index}/>;
+        }
       })
       }</View>)
     }
-    return <View style={{flex:1,display:'flex',flexDirection:'column',backgroundColor:'#fff',justifyContent:'center',alignItems:'center'}}><Text style={{fontSize:20,opacity:0.5}}>No Transactions</Text></View>;
+    return <NoTransactions />;
   }
 
   const setSelectedMonth = (_this,month) => {
@@ -175,24 +194,20 @@ const BankTransaction = (props) => {
 
   const RenderMonths = () => {
     if(props.route.params.months.length){
-      return <View style={{display:'flex',flexDirection:'row',justifyContent:'space-around'}}>{props.route.params.months.map((item,index) => <Text primary testID={item} key={index} style={{display:'flex',justifyContent:'center',padding:10}} onPress={() => setSelectedMonth(this, item)}>{item}</Text>)}</View>
+      return <View style={styles(theme).monthView}>{props.route.params.months.map((item,index) => {
+        return (selectedValue===item ? <Text primary testID={item} key={index} style={styles(theme).selectedMonth} onPress={() => setSelectedMonth(this, item)}>{item}</Text> : <Text primary testID={item} key={index} style={styles(theme).monthViewText} onPress={() => setSelectedMonth(this, item)}>{item}</Text>) 
+      })}</View>
     }
     return <Text></Text>;
   }
-  // <Picker
-  //           selectedValue={selectedValue}
-  //           style={{ height: 50, width: 150 }}
-  //           onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-  //         >
-  //           {props.route.params.months.map((item,index) => <Picker.Item key={index} label={item} value={item} />)}
-  //         </Picker>
+ 
   return (
-    <View style={{flex:1}}>
-        <View style={{backgroundColor:primaryColor,alignItems:'flex-start'}}>
+    <View style={styles(theme).container}>
+        <View style={styles(theme).headerViewStyle}>
           <Button default icon={<Icon name="arrow-left" size={20} color="#fff" />} text="" onPress={goBack}/>
         </View>
         <View>
-          <StatusBarView />
+          <StatusLineView selectedMonth={props.route.params.selectedMonth} lastSixMonthsExpanse={props.route.params.lastSixMonthsExpanse} monthLabels={props.route.params.months}/>
         </View>
         <View>
           <RenderMonths />
@@ -200,7 +215,7 @@ const BankTransaction = (props) => {
         <View>
           <RenderDates />
         </View>
-        <View style={{flex:1}}>
+        <View style={styles(theme).flexView}>
           {active === 'All' && <RenderBankTransactions type="transactions" />}
           {active === 'Income' && <RenderBankTransactions type="income" />}
           {active === 'Expanse' && <RenderBankTransactions type="expanse" />}
@@ -212,24 +227,76 @@ const BankTransaction = (props) => {
                 key="All"
                 icon="today"
                 label="All"
+                style={{
+                  icon:{
+                    color: active === 'All' ? theme.light.primaryColor : theme.light.secondaryColor
+                  },
+                  label: active === 'All' ? {
+                    color: theme.dark.primaryColor,
+                    fontWeight:'bold',
+                    width:50
+                  } : {
+                    color: theme.light.primaryColor,
+                    width:50
+                  }
+                }}
                 onPress={() => setActive('All')}
             />
             <BottomNavigation.Action
                 key="Income"
                 icon="people"
                 label="Income"
+                style={{
+                  icon:{
+                    color: active === 'Income' ? theme.light.primaryColor : theme.light.secondaryColor
+                  },
+                  label: active === 'Income' ? {
+                    color: theme.dark.primaryColor,
+                    fontWeight:'bold',
+                    width:50
+                  } : {
+                    color: theme.dark.secondaryColor,
+                    width:50
+                  }
+                }}
                 onPress={() => setActive('Income')}
             />
             <BottomNavigation.Action
                 key="Expanse"
                 icon="bookmark-border"
                 label="Expanse"
+                style={{
+                  icon:{
+                    color: active === 'Expanse' ? theme.light.primaryColor : theme.light.secondaryColor
+                  },
+                  label: active === 'Expanse' ? {
+                    color: theme.dark.primaryColor,
+                    fontWeight:'bold',
+                    width:54
+                  } : {
+                    color: theme.dark.secondaryColor,
+                    width:50
+                  }
+                }}
                 onPress={() => setActive('Expanse')}
             />
             <BottomNavigation.Action
                 key="Others"
                 icon="settings"
                 label="Others"
+                style={{
+                  icon:{
+                    color: active === 'Others' ? theme.light.primaryColor : theme.light.secondaryColor
+                  },
+                  label: active === 'Others' ? {
+                    color: theme.dark.primaryColor,
+                    fontWeight:'bold',
+                    width:50
+                  } : {
+                    color: theme.dark.secondaryColor,
+                    width:50
+                  }
+                }}
                 onPress={() => setActive('Others')}
             />
           </BottomNavigation>

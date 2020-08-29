@@ -208,6 +208,7 @@ const parseMessage = (object,type,index,name) => {
         // console.log('------------------------------------------->');
     }
     return {
+        //message:object.body,
         merchantName,
         timestamp:object.date,
         date:convertTimestampToDate(object.date),
