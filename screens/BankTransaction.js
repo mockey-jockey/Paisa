@@ -34,7 +34,6 @@ const BankTransaction = (props) => {
   },[selectedValue])
   
   const getMonth = (month) => {
-    console.log("_____________",month)
     var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     return monthNames.indexOf(month.toUpperCase());
   }
@@ -48,7 +47,6 @@ const BankTransaction = (props) => {
       values.push(i);
     }
     setDates(values);
-    console.log("***********ENter getDates******************")
     getTransactionsDate(null,'All');
   }
   const populateBankMessages = (transactions) => {
@@ -95,7 +93,6 @@ const BankTransaction = (props) => {
       console.log(`******${error}*******`);
     }
   } 
-
   const getTransactionsDate = (_this,day) => {
     setSelectedDay(day);
     if(day === 'All'){

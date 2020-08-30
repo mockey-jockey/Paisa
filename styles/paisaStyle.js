@@ -12,6 +12,19 @@ const styles = (theme) => StyleSheet.create({
     flexView: {
         flex: 1
     },
+    enableAccessView:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center',
+    },
+    enableAccessText: {
+        fontSize: 24,
+        justifyContent:'center',
+        alignItems:'center',
+        alignContent:'center',
+        alignSelf:'center',
+        textAlign:'center'
+    },
     headerViewStyle: {
         backgroundColor: theme.dark.primaryColor,
         alignItems:'flex-start'

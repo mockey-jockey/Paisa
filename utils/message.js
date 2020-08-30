@@ -226,8 +226,8 @@ const parseMessage = (object,type,index,name) => {
 export const getSMS = (minDate,maxDate) => {
     return new Promise((resolve, reject) => {
         console.log("INBOX");
-        console.log("minDate"+ new Date('01/01/2020').getTime())
-        console.log("maxDate"+ new Date().getTime());
+        console.log("minDate"+ minDate)
+        console.log("maxDate"+ maxDate);
         // var bankList = {
         //     HDFC : [],
         //     ICICI : [],
@@ -257,12 +257,10 @@ export const getSMS = (minDate,maxDate) => {
                 },
                 (count, smsList) => {
                     console.log('Count: ', count);
-                    //console.log('List: ', smsList);
                     var arr = JSON.parse(smsList);
                     var bankNames =  ["VYSA", "ALLA", "HDFC", "ANDB", "BARB", "BKID", "CBIN", "CITI", "CORP", "ICICI", "IDIB", "IOBA", "KVBL", "MAHB", "PUNB", "SBIN", "UBIN", "VIJB", "YESB", "BKDN", "CNRB", "DBSS", "IBKL", "IDFB", "INDB", "SYNB", "TMBL", "UCBA", "UTIB"];
     
                     arr.forEach((object,index) => {
-                        //console.log('Object: ' + object);
                         var isBankNameMatch = bankNames.filter((item) => object.address.indexOf(item) !== -1);
                         if(isBankNameMatch.length){
                             var bankNameIndex = bankNames.indexOf(isBankNameMatch[0]);
@@ -280,22 +278,6 @@ export const getSMS = (minDate,maxDate) => {
                             }
                         }
                     });
-                    // function getUnique(arr, comp) {
-
-                    //                     // store the comparison  values in array
-                    // const unique =  arr.map(e => e[comp])
-                    
-                    //                 // store the indexes of the unique objects
-                    //                 .map((e, i, final) => final.indexOf(e) === i && i)
-                    
-                    //                 // eliminate the false indexes & return unique objects
-                    //                 .filter((e) => arr[e]).map(e => arr[e]);
-                    
-                    // return unique;
-                    // }
-                    
-                    // console.log(getUnique(arr1,'refNo'));
-                    console.log(bankList.length)
                     const filteredArr = bankList.reduce((acc, current) => {
                         const x = acc.find(item => item.refNo === current.refNo);
                         if (!x) {
@@ -304,7 +286,6 @@ export const getSMS = (minDate,maxDate) => {
                             return acc;
                         }
                     }, []);
-                    console.log(filteredArr.length)
                     resolve(filteredArr); 
                 },
             );

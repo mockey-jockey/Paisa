@@ -5,6 +5,7 @@ import {
   ScrollView,
   View,
   Text,
+  PermissionsAndroid
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import ThemeContext from '../themeContext';
@@ -20,10 +21,40 @@ const Dashboard = (props) => {
   const [lastSixMonths, setLastSixMonths] = useState([]);
   const [lastSixMonthsExpanse, setLastSixMonthsExpanse] = useState({});
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [readAccess, setReadAccess] = useState(false);
   const theme = useContext(ThemeContext);
+  const requestSMSPermission = async () => {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_SMS,
+          {
+            title: "READ Bank SMS",
+            message: "To read only bank transactions messages",
+            buttonNegative: "Cancel",
+            buttonPositive: "OK"
+          }
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          setReadAccess(true);
+          return true;
+        } else {
+          setReadAccess(false);
+          return false;
+        }
+      } catch (err) {
+        setReadAccess(false);
+        console.warn(err);
+        return false;
+      }
+  };
+  
   useEffect(() => {
-    getLastSixMonthsData();
-  },[]);
+    if(readAccess){
+      getLastSixMonthsData();
+    }else{
+      requestSMSPermission()
+    }
+  },[readAccess]);
 
   const startDay = (y,m) => {
     return new Date(y,m, 1).setHours(0,0,0,0);
@@ -34,7 +65,6 @@ const Dashboard = (props) => {
   }
 
   const getMonth = (month) => {
-    console.log("_____________",month)
     var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     return monthNames.indexOf(month.toUpperCase());
   }
@@ -136,7 +166,6 @@ const Dashboard = (props) => {
 
   const getLastSixMonthExpanse = (transactions,sixMonths) => {
       var expanse = [];
-      console.log("****2*****",sixMonths);
       for(var i=0;i<sixMonths.length;i++){
         var today = new Date();
         var month = getMonth(sixMonths[i]);
@@ -156,14 +185,11 @@ const Dashboard = (props) => {
         }
         expanse.push(bankObj)
       }
-      console.log("****3*****")
-      console.log(expanse)
       setLastSixMonthsExpanse(expanse);
   }
 
   const getTransactions = (minDate,maxDate,month) => {
     getSMS(minDate,maxDate).then((data) => {
-      console.log("****1*****");
       getLastSixMonthExpanse(data,month);
       _storeData(JSON.stringify(data));
       var today = new Date();
@@ -215,7 +241,7 @@ const Dashboard = (props) => {
   const RenderMonths = () => {
     if(lastSixMonths.length){
       return <View style={styles(theme).monthView}>{lastSixMonths.map((item,index) => {
-        return (selectedMonth===item ? <Text primary testID={item} key={index} style={styles(theme).selectedMonth} onPress={() => setSelectedMonth(this, item)}>{item}</Text> : <Text primary testID={item} key={index} style={styles(theme).monthViewText} onPress={() => setSelectedMonth(this, item)}>{item}</Text>) 
+        return (selectedMonth===item ? <Text primary testID={item} key={index} style={styles(theme).selectedMonth} onPress={() => getTransactionsDate(this, item)}>{item}</Text> : <Text primary testID={item} key={index} style={styles(theme).monthViewText} onPress={() => getTransactionsDate(this, item)}>{item}</Text>) 
       })}</View>
     }
     return <Text></Text>;
@@ -268,14 +294,14 @@ const Dashboard = (props) => {
     
   return (
     <View style={styles(theme).container}>
-        <StatusBarView transactions={transactionDetails}/>
+        {Object.keys(transactionDetails).length ? <View><StatusBarView transactions={transactionDetails}/>
         <HeaderView />
         <View>
             <RenderMonths />
         </View>
         <ScrollView>
           <RenderBankTransactions />
-        </ScrollView>
+        </ScrollView></View> : <View style={styles(theme).enableAccessView}><Text style={styles(theme).enableAccessText}>Enable to read bank transactions messages!</Text><Button primary raised text="Read SMS" onPress={requestSMSPermission}/></View>}
     </View>
   );
 };

@@ -10,7 +10,6 @@ const StatusLineView = (props) => {
     
     var points = JSON.parse(props.lastSixMonthsExpanse);
     points = points.length ? points : [0,0,0,0,0,0];
-    console.log(points)
     const data = {
         labels: props.monthLabels,
         datasets: [
@@ -62,6 +61,7 @@ const StatusLineView = (props) => {
             renderDotContent={(item) => {
                 let value = getValue(points[item.index]);
                 return (<View
+                    key={item.index}
                 style={{
                     height: 24,
                     width: 50,
