@@ -294,7 +294,7 @@ const Dashboard = (props) => {
     
   return (
     <View style={styles(theme).container}>
-        {Object.keys(transactionDetails).length ? <View><StatusBarView transactions={transactionDetails}/>
+        {(Object.keys(transactionDetails).length || readAccess) ? <View style={{flex:1}}><StatusBarView transactions={transactionDetails}/>
         <HeaderView />
         <View>
             <RenderMonths />
