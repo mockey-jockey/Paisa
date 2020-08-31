@@ -275,7 +275,10 @@ const Dashboard = (props) => {
                 </View>
                 <View style={styles(theme).rightElements}>
                   <Text>₹ {item.amount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} <View style={styles(theme).transactionsTypeView}>{item.type === "credited" && <Icon name="sort-down" style={styles(theme).iconDown} />}{item.type === "debited" && <Icon name="sort-up" style={styles(theme).iconUp}/>}</View></Text>
-                  <Text>{item.accountDetails.type} <Text>{item.accountDetails.number}</Text></Text>
+                  <Text>{item.accountDetails.type === 'account' && <Image
+                    style={styles(theme).bankLogo}
+                    source={BankNameObj[item.accountDetails.bankName].logo}
+                  />}{item.accountDetails.type === 'card' && <Text style={{color:theme.dark.secondaryColor}}>card</Text>} <Text>{item.accountDetails.number}</Text></Text>
                 </View>
               </View>)
             })}

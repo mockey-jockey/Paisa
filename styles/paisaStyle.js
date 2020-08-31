@@ -133,11 +133,11 @@ const styles = (theme) => StyleSheet.create({
         paddingLeft:2
     },
     iconDown: {
-        color: theme.light.primaryColor,
+        color: theme.dark.secondaryColor,
         fontSize:15
     },
     iconUp: {
-        color: theme.dark.secondaryColor,
+        color: theme.light.primaryColor,
         fontSize:15,
         height:10
     },
