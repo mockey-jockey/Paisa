@@ -9,4 +9,7 @@
 
 # Add any project specific keep options here:
 
--keep public class com.horcrux.svg.** {*;}
+#-keep public class com.horcrux.svg.** {*;}
+# prevent Crashlytics obfuscation
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**

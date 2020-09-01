@@ -213,7 +213,20 @@ const styles = (theme) => StyleSheet.create({
     },
     noTransactionText: {
         fontSize:20,
+        opacity:0.8
+    },
+    subText:{
+        fontSize:15,
         opacity:0.5
+    },
+    headerImage:{
+        width: "100%",
+        height:130,
+    },
+    noTransactionsImage: {
+        width: "100%",
+        height: "50%",
+        top:0
     }
 });
 export default styles;

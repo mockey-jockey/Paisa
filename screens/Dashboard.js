@@ -4,6 +4,7 @@ import {
   Image,
   ScrollView,
   View,
+  StatusBar,
   Text,
   PermissionsAndroid
 } from 'react-native';
@@ -295,16 +296,31 @@ const Dashboard = (props) => {
     return <Text></Text>;
   }
     
-  return (
-    <View style={styles(theme).container}>
-        {(Object.keys(transactionDetails).length || readAccess) ? <View style={{flex:1}}><StatusBarView transactions={transactionDetails}/>
+  const NoTransactions = () => {
+    return (<View style={{flex:1,backgroundColor:"white",paddingTop:10}}><Image style={styles(theme).noTransactionsImage} source={require('../logo/noTransaction.png')} /><View style={styles(theme).noTransactions}>
+      <Text style={styles(theme).noTransactionText}>Sorry, no transactions found</Text>
+      <Text style={styles(theme).subText}>Kindly try with different months</Text>
+    </View></View>);
+  };
+  const TransactionView = () => {
+    const banks = Object.keys(transactionDetails)
+    
+      return (<View style={{flex:1}}>
+        <StatusBar backgroundColor={theme.dark.primaryColor} />
+        {banks.length > 0 ? <StatusBarView transactions={transactionDetails} /> : <Image resizeMode="contain" style={styles(theme).headerImage} source={require('../logo/header.png')} />}
         <HeaderView />
         <View>
             <RenderMonths />
         </View>
-        <ScrollView>
+        {banks.length > 0 ? <ScrollView>
           <RenderBankTransactions />
-        </ScrollView></View> : <View style={styles(theme).enableAccessView}><Text style={styles(theme).enableAccessText}>Enable to read bank transactions messages!</Text><Button primary raised text="Read SMS" onPress={requestSMSPermission}/></View>}
+        </ScrollView> : <NoTransactions />}
+      </View>)
+  }
+
+  return (
+    <View style={styles(theme).container}>
+        {readAccess ? <TransactionView /> : <View style={styles(theme).enableAccessView}><Text style={styles(theme).enableAccessText}>Enable to read bank transactions messages!</Text><Button primary raised text="Read SMS" onPress={requestSMSPermission}/></View>}
     </View>
   );
 };

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "980050352178",
+    "firebase_url": "https://paisa-f2f7b.firebaseio.com",
+    "project_id": "paisa-f2f7b",
+    "storage_bucket": "paisa-f2f7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980050352178:android:98e3032b8109ff2a53042b",
+        "android_client_info": {
+          "package_name": "com.money"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "980050352178-udg52voqipkrvvbcq3hsqla46570kgep.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjGosJROcwJH592_K-FT4PMr2OdBPBHyo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "980050352178-udg52voqipkrvvbcq3hsqla46570kgep.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
