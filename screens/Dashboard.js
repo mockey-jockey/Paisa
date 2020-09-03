@@ -294,7 +294,7 @@ const Dashboard = (props) => {
               style={styles(theme).bankLogo}
               source={BankNameObj[item].logo}
             /> {BankNameObj[item].name}</Text>
-              <Text testID={item} style={styles(theme).bankBalance} key={`${index} balance`}>Avail Bal. ₹ {availBalance[item] && availBalance[item][0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
+            {availBalance[item] && availBalance[item].length > 0 && <Text testID={item} style={styles(theme).bankBalance} key={`${index} balance`}>Avail Bal. ₹ {availBalance[item][0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>}
             </View>
             <Divider/>
             <View>

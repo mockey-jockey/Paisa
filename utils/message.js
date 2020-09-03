@@ -194,7 +194,7 @@ const getRefNo = (message) => {
 const parseMessage = (object,type,index,name) => {
     var merchantName = getMerchantName(object.body);
     // console.log('------------------------------------------->');
-    if(name === 'HDFC'){
+    //if(name === 'HDFC'){
         // var number = JSON.stringify(getAcctAndCardNumber(object.body,object.address))
         // console.log('-->' + object.body);
         // console.log('-->' + merchantName);
@@ -205,10 +205,10 @@ const parseMessage = (object,type,index,name) => {
         // console.log('-->' + modeOfPayment(object.body));
         // console.log('-->' + getAvailableBalance(object.body));
         // console.log('-->' + getRefNo(object.body));
-    }
+    //}
     // console.log('------------------------------------------->');
     return {
-        message:object.body,
+        //message:object.body,
         merchantName,
         timestamp:object.date,
         date:convertTimestampToDate(object.date),
@@ -233,8 +233,8 @@ export const getSMS = (minDate,maxDate) => {
             // the next 4 filters should NOT be used together, they are OR-ed so pick one
             // read: 0, // 0 for unread SMS, 1 for SMS already read
             // _id: 1234, // specify the msg id
-            minDate, // timestamp (in milliseconds since UNIX epoch)
-            maxDate,
+            minDate,// : new Date().setHours(0,0,0,0), // timestamp (in milliseconds since UNIX epoch)
+            maxDate,// : new Date().getTime(),
             //address: 'ADHDFCBK', // sender's phone number
             //bodyRegex: '(.*)(?i)(?:(?:RS|INR|MRP)\\.?\\s?)(\\d+(:?\\,\\d+)?(\\,\\d+)?(\\.\\d{1,2})?)(.*)',
             // body: 'How are you shadman', // content to match
@@ -252,6 +252,7 @@ export const getSMS = (minDate,maxDate) => {
                 (count, smsList) => {
                     console.log('Count: ', count);
                     var arr = JSON.parse(smsList);
+                    //console.log('arr: ', arr);
                     var bankNames =  ["VYSA", "ALLA", "HDFC", "ANDB", "BARB", "BKID", "CBIN", "CITI", "CORP", "ICICI", "IDIB", "IOBA", "KVBL", "MAHB", "PUNB", "SBIN", "UBIN", "VIJB", "YESB", "BKDN", "CNRB", "DBSS", "IBKL", "IDFB", "INDB", "SYNB", "TMBL", "UCBA", "UTIB"];
     
                     arr.forEach((object,index) => {
@@ -285,7 +286,7 @@ export const getSMS = (minDate,maxDate) => {
                     //     refNo: Math.random(0)
                     // }]
                     const filteredArr = bankList.reduce((acc, current) => {
-                        const x = acc.find(item => item.refNo === current.refNo);
+                        const x = acc.find(item => (item.refNo === current.refNo && item.accountDetails.bankName === current.accountDetails.bankName));
                         if (!x) {
                             return acc.concat([current]);
                         } else {

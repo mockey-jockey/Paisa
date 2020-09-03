@@ -168,7 +168,7 @@ const BankTransaction = (props) => {
                   style={styles(theme).bankLogo}
                   source={BankNameObj[item].logo}
                 /> {BankNameObj[item].name}</Text>
-                <Text testID={item} style={styles(theme).bankBalance} key={`${index} balance`}>Avail Bal. ₹ {availBalance && availBalance.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
+                {availBalance.length > 0 && <Text testID={item} style={styles(theme).bankBalance} key={`${index} balance`}>Avail Bal. ₹ {availBalance.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>}
               </View>
               <Divider/>
               <FlatList data={transactions} renderItem={renderItem} keyExtractor={item => item.index}/>
