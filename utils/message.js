@@ -193,8 +193,8 @@ const getRefNo = (message) => {
 
 const parseMessage = (object,type,index,name) => {
     var merchantName = getMerchantName(object.body);
+    // console.log('------------------------------------------->');
     if(name === 'HDFC'){
-        // console.log('------------------------------------------->');
         // var number = JSON.stringify(getAcctAndCardNumber(object.body,object.address))
         // console.log('-->' + object.body);
         // console.log('-->' + merchantName);
@@ -205,10 +205,10 @@ const parseMessage = (object,type,index,name) => {
         // console.log('-->' + modeOfPayment(object.body));
         // console.log('-->' + getAvailableBalance(object.body));
         // console.log('-->' + getRefNo(object.body));
-        // console.log('------------------------------------------->');
     }
+    // console.log('------------------------------------------->');
     return {
-        //message:object.body,
+        message:object.body,
         merchantName,
         timestamp:object.date,
         date:convertTimestampToDate(object.date),
@@ -225,14 +225,8 @@ const parseMessage = (object,type,index,name) => {
 // Function to read particular message from inbox with id
 export const getSMS = (minDate,maxDate) => {
     return new Promise((resolve, reject) => {
-        console.log("INBOX");
-        console.log("minDate"+ minDate)
-        console.log("maxDate"+ maxDate);
-        // var bankList = {
-        //     HDFC : [],
-        //     ICICI : [],
-        //     SBI : []
-        // }
+        // console.log("minDate"+ minDate)
+        // console.log("maxDate"+ maxDate);
         var bankList = [];
         let filter = {
             box: 'inbox', // 'inbox' (default), 'sent', 'draft', 'outbox', 'failed', 'queued', and '' for all
@@ -278,6 +272,18 @@ export const getSMS = (minDate,maxDate) => {
                             }
                         }
                     });
+                    // bankList = [{
+                    //     merchantName : '',
+                    //     timestamp: new Date().getTime(),
+                    //     date:convertTimestampToDate(new Date().getTime()),
+                    //     amount: "12300",
+                    //     type:"",
+                    //     accountDetails: {bankName:"HDFC",accountNumber:"xxxx1234",number:"123123",type:'account'},
+                    //     mode:"UPI",
+                    //     index:0,
+                    //     availBalance: "123324",
+                    //     refNo: Math.random(0)
+                    // }]
                     const filteredArr = bankList.reduce((acc, current) => {
                         const x = acc.find(item => item.refNo === current.refNo);
                         if (!x) {

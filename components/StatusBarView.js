@@ -7,7 +7,6 @@ import Svg, { G } from 'react-native-svg';
 const screenWidth = Dimensions.get("window").width;
 const StatusBarView = (props) => {
     const theme = useContext(ThemeContext);
-    const { primaryColor } = theme.palette;
     const [creditsData, setCreditsData] = useState([]);
     const [debitsData, setDebitsData] = useState([]);
     const banks = Object.keys(props.transactions);

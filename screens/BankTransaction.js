@@ -145,7 +145,7 @@ const BankTransaction = (props) => {
       <Text>{item.accountDetails.type === 'account' && <Image
         style={styles(theme).bankLogo}
         source={BankNameObj[item.accountDetails.bankName].logo}
-      />}{item.accountDetails.type === 'card' && <Text style={{color:theme.dark.secondaryColor}}>card</Text>} <Text>{item.accountDetails.number}</Text></Text>
+      />}{item.accountDetails.type === 'card' && <Text style={{color:theme.dark.secondaryColor}}>card</Text>} <Text style={styles(theme).dateColor}>{item.accountDetails.number}</Text></Text>
     </View>
   </View>)
   };
@@ -154,6 +154,7 @@ const BankTransaction = (props) => {
 
   const RenderBankTransactions = ({type}) => {
     const banks = Object.keys(transactionDetails);
+    const availBalance = props.route.params.availBalance;
     if(banks.length){
       return (<View style={styles(theme).flexView}>{banks.map((item,index) => {
         const transactions = transactionDetails[item][type];
@@ -167,7 +168,7 @@ const BankTransaction = (props) => {
                   style={styles(theme).bankLogo}
                   source={BankNameObj[item].logo}
                 /> {BankNameObj[item].name}</Text>
-                  <Text testID={item} style={styles(theme).bankBalance} key={`${index} balance`}>₹ {balance.length && balance[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
+                <Text testID={item} style={styles(theme).bankBalance} key={`${index} balance`}>Avail Bal. ₹ {availBalance && availBalance.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
               </View>
               <Divider/>
               <FlatList data={transactions} renderItem={renderItem} keyExtractor={item => item.index}/>

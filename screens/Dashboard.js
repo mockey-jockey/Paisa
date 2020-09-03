@@ -23,6 +23,7 @@ const Dashboard = (props) => {
   const [lastSixMonthsExpanse, setLastSixMonthsExpanse] = useState({});
   const [selectedMonth, setSelectedMonth] = useState('');
   const [readAccess, setReadAccess] = useState(false);
+  const [availBalance, setAvailBalance] = useState({});
   const theme = useContext(ThemeContext);
   const requestSMSPermission = async () => {
       try {
@@ -49,6 +50,26 @@ const Dashboard = (props) => {
       }
   };
   
+  /*
+  Calculate dynamic width and height using image url
+  useEffect(() => {
+      Image.getSize(this.props.uri, (width, height) => {
+        if (this.props.width && !this.props.height) {
+            this.setState({
+                width: this.props.width,
+                height: height * (this.props.width / width)
+            });
+        } else if (!this.props.width && this.props.height) {
+            this.setState({
+                width: width * (this.props.height / height),
+                height: this.props.height
+            });
+        } else {
+            this.setState({ width: width, height: height });
+        }
+    });
+  }))*/
+
   useEffect(() => {
     if(readAccess){
       getLastSixMonthsData();
@@ -97,7 +118,6 @@ const Dashboard = (props) => {
   }
 
   const getTransactionsDate = (_this,month) => {
-    console.log(month)
     setSelectedMonth(month);
     if(month === 'Today'){
       var start = new Date();
@@ -129,6 +149,9 @@ const Dashboard = (props) => {
         // if(bankName === "ICICI"){
         //   console.log(item.message)
         // }
+        // console.log("************")
+        // console.log(item.message)
+        // console.log("************")
         bankList[bankName].transactions.push(item);
         bankList[bankName].balance.push(item);
         if(item.type === 'credited'){
@@ -167,6 +190,7 @@ const Dashboard = (props) => {
 
   const getLastSixMonthExpanse = (transactions,sixMonths) => {
       var expanse = [];
+      var currentBalance = {};
       for(var i=0;i<sixMonths.length;i++){
         var today = new Date();
         var month = getMonth(sixMonths[i]);
@@ -180,12 +204,19 @@ const Dashboard = (props) => {
           if(!bankObj[bankName]){
             bankObj[bankName] = 0;
           }
+          if(!currentBalance[bankName]){
+            currentBalance[bankName] = [];
+          }
+          if(item.availBalance && Array.isArray(currentBalance[bankName])){
+            currentBalance[bankName][currentBalance[bankName].length] = item.availBalance;
+          }
           if((item.type === 'debited'|| item.type === 'withdrawn') && item.mode !== 'NEFT' && item.mode !== 'IMPS' && item.timestamp > minDate && item.timestamp < maxDate.getTime()){
             bankObj[bankName] +=item.amount;
           }
         }
         expanse.push(bankObj)
       }
+      setAvailBalance(currentBalance);
       setLastSixMonthsExpanse(expanse);
   }
 
@@ -231,7 +262,8 @@ const Dashboard = (props) => {
       months: lastSixMonths,
       selectedMonth,
       lastSixMonthsExpanse: JSON.stringify(lastSixMonthsExpanse.map((item) => item[selectedBank])),
-      selectedBank
+      selectedBank,
+      availBalance : availBalance[selectedBank].length && availBalance[selectedBank][0]
     });
   }
   // <Button default text="Default" onPress={handlePress} />
@@ -254,14 +286,15 @@ const Dashboard = (props) => {
     if(banks.length){
       return (<View style={styles(theme).flexView}>{banks.map((item,index) => {
         const transactions = transactionDetails[item].transactions.slice(0,5);
-        const balance = transactionDetails[item].balance.map((item) => item.availBalance).filter(item => item);
+        //const balance = transactionDetails[item].balance.map((item) => item.availBalance).filter(item => item);
+        console.log()
         return (<View style={(banks.length-1 === index) ? styles(theme).lastTransactionsView : styles(theme).transactionsView} key={index}>
             <View style={styles(theme).transactionsHeader}>
               <Text testID={item} key={index} style={styles(theme).bankName}><Image
               style={styles(theme).bankLogo}
               source={BankNameObj[item].logo}
             /> {BankNameObj[item].name}</Text>
-              <Text testID={item} style={styles(theme).bankBalance} key={`${index} balance`}>₹ {balance.length && balance[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
+              <Text testID={item} style={styles(theme).bankBalance} key={`${index} balance`}>Avail Bal. ₹ {availBalance[item] && availBalance[item][0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
             </View>
             <Divider/>
             <View>
@@ -279,7 +312,7 @@ const Dashboard = (props) => {
                   <Text>{item.accountDetails.type === 'account' && <Image
                     style={styles(theme).bankLogo}
                     source={BankNameObj[item.accountDetails.bankName].logo}
-                  />}{item.accountDetails.type === 'card' && <Text style={{color:theme.dark.secondaryColor}}>card</Text>} <Text>{item.accountDetails.number}</Text></Text>
+                  />}{item.accountDetails.type === 'card' && <Text style={{color:theme.dark.secondaryColor}}>card</Text>} <Text style={styles(theme).dateColor}>{item.accountDetails.number}</Text></Text>
                 </View>
               </View>)
             })}

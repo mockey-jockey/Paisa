@@ -1,6 +1,5 @@
 import { Dimensions } from 'react-native';
 import { StyleSheet } from 'react-native';
-import { color } from 'react-native-reanimated';
 const deviceWidth = Dimensions.get('screen').width;
 const deviceHeight = Dimensions.get('screen').height;
     
@@ -90,8 +89,8 @@ const styles = (theme) => StyleSheet.create({
     },
     bankName: {
         fontWeight:'bold',
-        width:deviceWidth-200,
-        color: theme.dark.primaryColor
+        width: deviceWidth-200,
+        color: theme.dark.primaryColor,
     },
     bankLogo:{
         width: 15,
@@ -104,7 +103,7 @@ const styles = (theme) => StyleSheet.create({
     bankBalance: {
         color: theme.light.primaryColor,
         fontWeight:'bold',
-        width:100,
+        width:170,
         textAlign:'right'
     },
     textColor: {
@@ -221,12 +220,11 @@ const styles = (theme) => StyleSheet.create({
     },
     headerImage:{
         width: "100%",
-        height:130,
+        height: 297 * (deviceWidth / 942),
     },
     noTransactionsImage: {
         width: "100%",
-        height: "50%",
-        top:0
+        height: 514 * (deviceWidth / 706),
     }
 });
 export default styles;
