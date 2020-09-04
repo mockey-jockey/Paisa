@@ -123,7 +123,7 @@ const getAcctAndCardNumber = (message,name) => {
         if(acct[0]){
             obj.accountNumber = `${acct[0]}` || '';
         }
-        if(acct[1]){
+        if(acct.length > 1 && acct[1]){
             obj.number = `${acct[1].substr(acct[1].length - 5)}` || '';
         }
         obj.type = 'account';
@@ -131,7 +131,7 @@ const getAcctAndCardNumber = (message,name) => {
         if(card[0]){
             obj.accountNumber = `${card[0]}` || '';
         }
-        if(card[1]){
+        if(card.length > 1 && card[1]){
             obj.number = `${card[1].substr(card[1].length - 5)}` || '';
         }
         obj.type = 'card';
