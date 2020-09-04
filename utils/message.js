@@ -102,30 +102,38 @@ const convertTimestampToDate = (timestamp) => {
 const getAmount = (message) => {
     var regex = /(?:(?:RS|INR|MRP)\.?\s?)(\d+(:?\,\d+)?(\,\d+)?(\.\d{1,2})?)/gi;
     var amt = regex.exec(message);
-    return amt && amt.length && Math.round(Number(amt[1].replace(/[^0-9.-]+/g,""))) || '';
+    return (amt && amt.length && amt.length > 1 && Math.round(Number(amt[1].replace(/[^0-9.-]+/g,"")))) || '';
 }
 
 const getAvailableBalance = (message) => {
     var regex = /(?:(?:Avl\.? bal\.?|Availabel Balance|Avbl Bal).*(?:RS|INR|MRP)\.?\s?)(\d+(:?\,\d+)?(\,\d+)?(\.\d{1,2})?)/gi;
     var amt = regex.exec(message);
-    return amt && amt.length && amt[1] || '';
+    return (amt && amt.length && amt.length > 1 && amt[1]) || '';
 }
 
 const getAcctAndCardNumber = (message,name) => {
     // /(?:\sa\/c\s|\sacct\s*)([0-9|*|X]{6})/gi,
     // /(?:a\/c\s|acct\s*)([0-9|*|X|a-z]*\s)/gi
     var acctRegex = /(?:a\/c\s|acct\s*)(?:no.\s|)([0-9|*|X|a-z]*\s?)/gi,
-    cardRegex = /(?:\scard\s*)([0-9|*|X]{6})/gi,obj={bankName:name};
+    cardRegex = /(?:\scard\s*)([0-9|*|X]{6})/gi,obj={bankName:name,accountNumber:'',number:'',type:''};
     
     var acct = acctRegex.exec(message);
     var card = cardRegex.exec(message);
     if(acct && acct.length){
-        obj.accountNumber = `${acct[0]}` || '';
-        obj.number = `${acct[1].substr(acct[1].length - 5)}` || '';
+        if(acct[0]){
+            obj.accountNumber = `${acct[0]}` || '';
+        }
+        if(acct[1]){
+            obj.number = `${acct[1].substr(acct[1].length - 5)}` || '';
+        }
         obj.type = 'account';
     }else if(card && card.length){
-        obj.accountNumber = `${card[0]}` || '';
-        obj.number = `${card[1].substr(card[1].length - 5)}` || '';
+        if(card[0]){
+            obj.accountNumber = `${card[0]}` || '';
+        }
+        if(card[1]){
+            obj.number = `${card[1].substr(card[1].length - 5)}` || '';
+        }
         obj.type = 'card';
     }
     return obj;
@@ -143,14 +151,14 @@ const getMerchantName = (message) => {
     var acct = acctRegex.exec(message);
     var card = cardRegex.exec(message);
     var vpa = vpaRegex.exec(message);
-    if(merchantRegex && merchantRegex.length){
-        merchantName = merchantRegex[1] || '';
-    }else if(vpa && vpa.length){
-        merchantName = vpa[1] || '';
-    }else if(acct && acct.length){
-        merchantName = `A/C ${acct[1]}` || '';
-    }else if(card && card.length){
-        merchantName = `Card ${acct[1]}` || '';
+    if(merchantRegex && merchantRegex.length && merchantRegex.length > 1){
+        merchantName = merchantRegex[1];
+    }else if(vpa && vpa.length && vpa.length > 1){
+        merchantName = vpa[1];
+    }else if(acct && acct.length && acct.length > 1){
+        merchantName = `A/C ${acct[1]}`;
+    }else if(card && card.length && card.length > 1){
+        merchantName = `Card ${card[1]}`;
     }
     
     return merchantName;
@@ -183,12 +191,12 @@ const getRefNo = (message) => {
 
     var upi1 = regex1.exec(message);
     var upi2 = regex2.exec(message);
-    if(upi1 && upi1.length){
-        return upi1[1] || '';
-    }else if(upi2 && upi2.length){
-        return upi2[1] || '';
+    if(upi1 && upi1.length && upi1.length > 1){
+        return upi1[1];
+    }else if(upi2 && upi2.length && upi2.length > 1){
+        return upi2[1];
     }
-    
+    return '';
 }
 
 const parseMessage = (object,type,index,name) => {

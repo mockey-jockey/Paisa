@@ -287,7 +287,6 @@ const Dashboard = (props) => {
       return (<View style={styles(theme).flexView}>{banks.map((item,index) => {
         const transactions = transactionDetails[item].transactions.slice(0,5);
         //const balance = transactionDetails[item].balance.map((item) => item.availBalance).filter(item => item);
-        console.log()
         return (<View style={(banks.length-1 === index) ? styles(theme).lastTransactionsView : styles(theme).transactionsView} key={index}>
             <View style={styles(theme).transactionsHeader}>
               <Text testID={item} key={index} style={styles(theme).bankName}><Image

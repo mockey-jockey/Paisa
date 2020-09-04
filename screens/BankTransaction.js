@@ -161,7 +161,6 @@ const BankTransaction = (props) => {
         if(transactions.length){
           let total = transactions.map((item) => item.amount);
           total = total.length ? total.reduce((a,b) => a+b) : 0;
-          const balance = transactionDetails[item].balance.map((item) => item.availBalance).filter(item => item);
           return (<View key={index} style={{flex:1,display:'flex',flexDirection:'column',backgroundColor:'#fff'}}>
                 <View style={styles(theme).transactionsHeader}>
                   <Text testID={item} key={index} style={styles(theme).bankName}><Image
