@@ -23,7 +23,7 @@ export default BankNameObj = {
         name: 'Bank of India',
         logo: require('../logo/BKID.jpg')
     },
-    'CBIN': {
+    'CBI': {
         name: 'Central Bank of India',
         logo: require('../logo/CBIN.jpeg')
     },
@@ -43,11 +43,11 @@ export default BankNameObj = {
         name: 'Indian Bank',
         logo: require('../logo/IDIB.jpg')
     },
-    'IOBA': {
+    'IOB': {
         name: 'Indian Overseas Bank',
         logo: require('../logo/IOBA.png')
     },
-    'KVBL': {
+    'KVB': {
         name: 'Karur Vysya Bank',
         logo: require('../logo/KVBL.jpg')
     },
