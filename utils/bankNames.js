@@ -63,6 +63,14 @@ export default BankNameObj = {
         name: 'State Bank of India',
         logo: require('../logo/SBIN.png')
     },
+    'SBI': {
+        name: 'State Bank of India',
+        logo: require('../logo/SBIN.png')
+    },
+    'SCI': {
+        name: 'State Bank of India',
+        logo: require('../logo/SBIN.png')
+    },
     'UBIN': {
         name: 'Union Bank of India',
         logo: require('../logo/UBIN.png')
@@ -112,6 +120,10 @@ export default BankNameObj = {
         logo: require('../logo/UCBA.png')
     },
     'UTIB': {
+        name: 'Axis Bank',
+        logo: require('../logo/UTIB.jpeg')
+    },
+    'AXIS': {
         name: 'Axis Bank',
         logo: require('../logo/UTIB.jpeg')
     },

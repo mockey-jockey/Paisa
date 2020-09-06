@@ -1,132 +1,132 @@
-"1 Abhyudaya Co-op Bank Ltd ABHY" 
-"2 Abu Dhabi Commercial Bank Ltd ADCB" 
-"3 National Bank of Abu Dhabi PJSC NBAD" 
-"4 AB Bank Ltd. ABBL" 
-"5 Ahmedabad Mercantile Co-op Bank AMCB" 
-"6 Allahabad Bank ALLA" 
-"7 Andhra Bank ANDB" 
-"8 Antwerp Diamond Bank Mumbai ADIA" 
-"9 Australia and New Zealand Banking ANZB" 
-"10 Axis Bank UTIB" 
-"11 Bank Of America BOFA" 
-"12 Bank Of Bahrain And Kuwait BBKM" 
-"13 Bank of Baroda BARB" 
-"14 Bank Of Ceylon BCEY" 
-"15 Bank of India BKID" 
-"16 Bank Of Maharashtra MAHB" 
-"17 Bank Of Nova Scotia NOSC" 
-"18 Bank Of Tokyo-Mitsubishi Ufj Ltd BOTM" 
-"19 Bank Internasional Indonesia IBBK" 
-"20 Barclays Bank Plc BARC" 
-"21 Bassein Catholic Co-op Bank Ltd BACB" 
-"22 Bharat Co-op Bank (Mumbai) Ltd BCBM" 
-"23 BNP Paribas BNPA" 
-"24 Canara Bank CNRB" 
-"25 Catholic Syrian Bank Ltd CSBK" 
-"26 Central Bank of India CBIN" 
-"27 Chinatrust Commercial Bank CTCB" 
-"28 Citibank India CITI" 
-29 Citizencredit Co-op Bank Ltd CCBL" 
-30 CityUnion Bank Ltd CIUB" 
-31 Corporation Bank CORP" 
-32 Cosmos Co-op Bank Ltd COSB" 
-33 Credit Agricole Corp and Investment CRLY" 
-34 Commonwealth Bank of Australia CTBA" 
-35 DBS Bank DBSS" 
-36 Dena Bank BKDN" 
-37 Deutsche Bank Ag DEUT" 
-38 Development Credit Bank DCBL" 
-39 Dhanlaxmi Bank Ltd DLXB" 
-40 Dicgc DICG" 
-41 Doha Bank DOHB" 
-42 Dombivli Nagari Sahakari Bank Ltd DNSB" 
-43 Export-Import Bank of India EIBI" 
-44 Federal Bank Ltd FDRL" 
-45 Firstrand Bank Ltd FIRN" 
-46 Greater Bombay Co-op Bank Ltd GBCB" 
-47 HDFC Bank HDFC" 
-48 HSBC HSBC" 
-49 HSBC Bank Oman S.A.O.G. OIBA" 
-50 ICICI Bank ICIC" 
-51 IDBI Bank IBKL" 
-52 IDFC Bank Limited IDFB" 
-53 Indian Bank IDIB" 
-54 Indian Overseas Bank IOBA" 
-55 IndusInd Bank Ltd. INDB" 
-56 Industrial and Commercial Bank of ICBK" 
-57 ING Vysya Bank VYSA" 
-58 Industrial Bank of Korea IBKO" 
-59 Jammu & Kashmir Bank Ltd. JAKA" 
-60 Janakalyan Sahakari Bank Ltd JSBL" 
-61 Janata Sahkari Bank Ltd Pune JSBP" 
-62 Jpmorgan Chase Bank CHAS" 
-63 Kalupur Commercial Co-op Bank Ltd KCCB" 
-64 Kalyan Janata Sahakari Bank Ltd KJSB" 
-65 Kapole Co-op Bank KCBL" 
-66 Karnataka Bank Ltd. KARB" 
-67 Karnataka State Co-op Apex Bank KSCB" 
-68 Karur Vysya Bank KVBL" 
-69 Kotak Mahindra Bank KKBK" 
-70 KEB Hana Bank KOEX" 
-71 Krung Thai Bank PCL Mumbai KRTH" 
-72 Lakshmi Vilas Bank Ltd LAVB" 
-73 Mahanagar Co-op Bank Ltd MCBL" 
-74 Maharashtra State Co-operative Bank MSCI" 
-75 Mashreq Bank Psc MSHQ" 
-76 Mehsana Urban Co-op Bank Ltd MSNU" 
-77 Mizuho Corporate Bank Ltd MHCB" 
-78 Nainital Bank Ltd NTBL" 
-79 National Australia Bank NATA" 
-80 New India Co-op Bank Ltd NICB" 
-81 Nkgsb Co-op Bank Ltd NKGS" 
-82 Nutan Nagarik Sahakari Bank Ltd NNSB" 
-83 Oman International Bank Saog OIBA" 
-84 Oriental Bank of Commerce ORBC" 
-85 Parsik Janata Sahakari Bank Ltd PJSB" 
-86 Punjab and Maharashtra Bank Ltd. PMCB" 
-87 Punjab National Bank PUNB" 
-88 Punjab & Sind Bank PSIB" 
-89 Qatar National Bank(QPSC) QNBA" 
-90 Rajkot Nagarik Sahakari Bank Ltd RNSB" 
-91 Ratnakar Bank Ltd RATN" 
-92 Reserve Bank Of India RBIS" 
-93 Royal bank of scotland ABNA" 
-94 Rabobank International RABO" 
-95 Sberbank SABR" 
-96 Saraswat Co-operative Bank Ltd. SRCB" 
-97 Shamrao Vithal Co-op Bank Ltd SVCB" 
-98 Shinhan Bank SHBK" 
-99 Societe Generale SOGE" 
-100 Sonali Bank Ltd. BSON" 
-101 South Indian Bank SIBL" 
-102 Standard Chartered Bank SCBL" 
-103 State Bank Of Bikaner And Jaipur SBBJ" 
-104 State Bank of Hyderabad SBHY" 
-105 State Bank of India SBIN" 
-106 SBI Global Factors Ltd(SBIGFL) NBFC" 
-107 India Factoring and Finance Solutions NBFC" 
-108 IFCI Factors Limited NBFC" 
-109 Bombay Mercantile Co-operative bankLimited BMCB" 
-110 State Bank Of Mauritius Ltd STCB" 
-111 State Bank of Mysore SBMY" 
-112 State Bank Of Patiala STBP" 
-113 State Bank Of Travancore SBTR" 
-114 State Bank of Saurashtra SSAU" 
-115 Sumitomo Mitsui BankingCorporation SMBC" 
-116 Surat Peoples Co-op Bank Ltd SPCB" 
-117 Syndicate Bank SYNB" 
-118 Tamilnad Mercantile Bank Ltd TMBL" 
-119 Thane Janta Sahakari Bank  Ltd. TJSB" 
-120 The Karad Urban Co-op Bank Ltd KUCB" 
-121 The Nasik Merchants Co-op Bank Ltd NMCB" 
-122 UBS AG UBSW" 
-123 UCO Bank UCBA" 
-124 Union Bank of India UBIN" 
-125 United Bank of India UTBI" 
-126 United Overseas Bank UOVB" 
-127 Vijaya Bank VIJB" 
-128 West Bengal State Co-op Bank Ltd WBSC" 
-129 Westpac Banking Corporation WPAC" 
-130 Woori Bank HVBK" 
-131 Yes Bank YESB" 
-132 Emirates NBD Bank PJSC EBIL" 
+1 Abhyudaya Co-op Bank Ltd ABHY 
+2 Abu Dhabi Commercial Bank Ltd ADCB 
+3 National Bank of Abu Dhabi PJSC NBAD 
+4 AB Bank Ltd. ABBL 
+5 Ahmedabad Mercantile Co-op Bank AMCB 
+6 Allahabad Bank ALLA 
+7 Andhra Bank ANDB 
+8 Antwerp Diamond Bank Mumbai ADIA 
+9 Australia and New Zealand Banking ANZB 
+10 Axis Bank UTIB 
+11 Bank Of America BOFA 
+12 Bank Of Bahrain And Kuwait BBKM 
+13 Bank of Baroda BARB 
+14 Bank Of Ceylon BCEY 
+15 Bank of India BKID 
+16 Bank Of Maharashtra MAHB 
+17 Bank Of Nova Scotia NOSC 
+18 Bank Of Tokyo-Mitsubishi Ufj Ltd BOTM 
+19 Bank Internasional Indonesia IBBK 
+20 Barclays Bank Plc BARC 
+21 Bassein Catholic Co-op Bank Ltd BACB 
+22 Bharat Co-op Bank (Mumbai) Ltd BCBM 
+23 BNP Paribas BNPA 
+24 Canara Bank CNRB 
+25 Catholic Syrian Bank Ltd CSBK 
+26 Central Bank of India CBIN 
+27 Chinatrust Commercial Bank CTCB 
+28 Citibank India CITI 
+29 Citizencredit Co-op Bank Ltd CCBL 
+30 CityUnion Bank Ltd CIUB 
+31 Corporation Bank CORP 
+32 Cosmos Co-op Bank Ltd COSB 
+33 Credit Agricole Corp and Investment CRLY 
+34 Commonwealth Bank of Australia CTBA 
+35 DBS Bank DBSS 
+36 Dena Bank BKDN 
+37 Deutsche Bank Ag DEUT 
+38 Development Credit Bank DCBL 
+39 Dhanlaxmi Bank Ltd DLXB 
+40 Dicgc DICG 
+41 Doha Bank DOHB 
+42 Dombivli Nagari Sahakari Bank Ltd DNSB 
+43 Export-Import Bank of India EIBI 
+44 Federal Bank Ltd FDRL 
+45 Firstrand Bank Ltd FIRN 
+46 Greater Bombay Co-op Bank Ltd GBCB 
+47 HDFC Bank HDFC 
+48 HSBC HSBC 
+49 HSBC Bank Oman S.A.O.G. OIBA 
+50 ICICI Bank ICIC 
+51 IDBI Bank IBKL 
+52 IDFC Bank Limited IDFB 
+53 Indian Bank IDIB 
+54 Indian Overseas Bank IOBA 
+55 IndusInd Bank Ltd. INDB 
+56 Industrial and Commercial Bank of ICBK 
+57 ING Vysya Bank VYSA 
+58 Industrial Bank of Korea IBKO 
+59 Jammu & Kashmir Bank Ltd. JAKA 
+60 Janakalyan Sahakari Bank Ltd JSBL 
+61 Janata Sahkari Bank Ltd Pune JSBP 
+62 Jpmorgan Chase Bank CHAS 
+63 Kalupur Commercial Co-op Bank Ltd KCCB 
+64 Kalyan Janata Sahakari Bank Ltd KJSB 
+65 Kapole Co-op Bank KCBL 
+66 Karnataka Bank Ltd. KARB 
+67 Karnataka State Co-op Apex Bank KSCB 
+68 Karur Vysya Bank KVBL 
+69 Kotak Mahindra Bank KKBK 
+70 KEB Hana Bank KOEX 
+71 Krung Thai Bank PCL Mumbai KRTH 
+72 Lakshmi Vilas Bank Ltd LAVB 
+73 Mahanagar Co-op Bank Ltd MCBL 
+74 Maharashtra State Co-operative Bank MSCI 
+75 Mashreq Bank Psc MSHQ 
+76 Mehsana Urban Co-op Bank Ltd MSNU 
+77 Mizuho Corporate Bank Ltd MHCB 
+78 Nainital Bank Ltd NTBL 
+79 National Australia Bank NATA 
+80 New India Co-op Bank Ltd NICB 
+81 Nkgsb Co-op Bank Ltd NKGS 
+82 Nutan Nagarik Sahakari Bank Ltd NNSB 
+83 Oman International Bank Saog OIBA 
+84 Oriental Bank of Commerce ORBC 
+85 Parsik Janata Sahakari Bank Ltd PJSB 
+86 Punjab and Maharashtra Bank Ltd. PMCB 
+87 Punjab National Bank PUNB 
+88 Punjab & Sind Bank PSIB 
+89 Qatar National Bank(QPSC) QNBA 
+90 Rajkot Nagarik Sahakari Bank Ltd RNSB 
+91 Ratnakar Bank Ltd RATN 
+92 Reserve Bank Of India RBIS 
+93 Royal bank of scotland ABNA 
+94 Rabobank International RABO 
+95 Sberbank SABR 
+96 Saraswat Co-operative Bank Ltd. SRCB 
+97 Shamrao Vithal Co-op Bank Ltd SVCB 
+98 Shinhan Bank SHBK 
+99 Societe Generale SOGE 
+100 Sonali Bank Ltd. BSON 
+101 South Indian Bank SIBL 
+102 Standard Chartered Bank SCBL 
+103 State Bank Of Bikaner And Jaipur SBBJ 
+104 State Bank of Hyderabad SBHY 
+105 State Bank of India SBIN 
+106 SBI Global Factors Ltd(SBIGFL) NBFC 
+107 India Factoring and Finance Solutions NBFC 
+108 IFCI Factors Limited NBFC 
+109 Bombay Mercantile Co-operative bankLimited BMCB 
+110 State Bank Of Mauritius Ltd STCB 
+111 State Bank of Mysore SBMY 
+112 State Bank Of Patiala STBP 
+113 State Bank Of Travancore SBTR 
+114 State Bank of Saurashtra SSAU 
+115 Sumitomo Mitsui BankingCorporation SMBC 
+116 Surat Peoples Co-op Bank Ltd SPCB 
+117 Syndicate Bank SYNB 
+118 Tamilnad Mercantile Bank Ltd TMBL 
+119 Thane Janta Sahakari Bank  Ltd. TJSB 
+120 The Karad Urban Co-op Bank Ltd KUCB 
+121 The Nasik Merchants Co-op Bank Ltd NMCB 
+122 UBS AG UBSW 
+123 UCO Bank UCBA 
+124 Union Bank of India UBIN 
+125 United Bank of India UTBI 
+126 United Overseas Bank UOVB 
+127 Vijaya Bank VIJB 
+128 West Bengal State Co-op Bank Ltd WBSC 
+129 Westpac Banking Corporation WPAC 
+130 Woori Bank HVBK 
+131 Yes Bank YESB 
+132 Emirates NBD Bank PJSC EBIL 
