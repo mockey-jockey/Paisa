@@ -58,7 +58,7 @@ const BankTransaction = (props) => {
             bankList[bankName] = {
               transactions : [],
               income : [],
-              expanse : [],
+              expense : [],
               others : [],
               balance : []
             }
@@ -68,7 +68,7 @@ const BankTransaction = (props) => {
           if(item.type === 'credited'){
             bankList[bankName].income.push(item);
           }else if((item.type === 'debited' || item.type === 'withdrawn') && item.mode !== 'IMPS' && item.mode !== 'NEFT'){
-            bankList[bankName].expanse.push(item);
+            bankList[bankName].expense.push(item);
           }else if(item.type === 'debited' && item.mode === 'IMPS' && item.mode === 'NEFT'){
             bankList[bankName].others.push(item);
           } else{
@@ -215,7 +215,7 @@ const BankTransaction = (props) => {
         <View style={styles(theme).flexView}>
           {active === 'All' && <RenderBankTransactions type="transactions" />}
           {active === 'Income' && <RenderBankTransactions type="income" />}
-          {active === 'Expanse' && <RenderBankTransactions type="expanse" />}
+          {active === 'Expense' && <RenderBankTransactions type="Expense" />}
           {active === 'Others' && <RenderBankTransactions type="others" />}
         </View>
         <View style={{bottom:0}}>
@@ -259,9 +259,9 @@ const BankTransaction = (props) => {
                 onPress={() => setActive('Income')}
             />
             <BottomNavigation.Action
-                key="Expanse"
+                key="Expense"
                 icon="bookmark-border"
-                label="Expanse"
+                label="Expense"
                 style={{
                   icon:{
                     color: active === 'Expanse' ? theme.light.primaryColor : theme.light.secondaryColor

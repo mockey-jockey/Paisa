@@ -189,7 +189,7 @@ const Dashboard = (props) => {
   } 
 
   const getLastSixMonthExpanse = (transactions,sixMonths) => {
-      var expanse = [];
+      var expense = [];
       var currentBalance = {};
       for(var i=0;i<sixMonths.length;i++){
         var today = new Date();
@@ -214,10 +214,10 @@ const Dashboard = (props) => {
             bankObj[bankName] +=item.amount;
           }
         }
-        expanse.push(bankObj)
+        expense.push(bankObj)
       }
       setAvailBalance(currentBalance);
-      setLastSixMonthsExpanse(expanse);
+      setLastSixMonthsExpanse(expense);
   }
 
   const getTransactions = (minDate,maxDate,month) => {
