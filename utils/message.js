@@ -261,7 +261,7 @@ export const getSMS = (minDate,maxDate) => {
                     console.log('Count: ', count);
                     var arr = JSON.parse(smsList);
                     //console.log('arr: ', arr);
-                    var bankNames =  ["SBI","SCI","SBIN","AXIS","VYSA", "ALLA", "HDFC", "ANDB", "BARB", "BKID", "CBIN", "CITI", "CORP", "ICICI", "IDIB", "IOB", "KVB", "MAHB", "PUNB", "SBIN", "UBIN", "VIJB", "YESB", "BKDN", "CNRB", "DBSS", "IBKL", "IDFB", "INDB", "SYNB", "TMBL", "UCBA", "UTIB"];
+                    var bankNames =   ["VYSA", "ALLA", "HDFC", "ANDB", "BARB", "BKID", "BOI", "CBI", "CITI", "CORP", "ICICI", "IDIB", "IOB", "KVB", "MAHB", "PUNB", "SBIN", "SBI", "SCI", "UBI", "VIJB", "YES", "BKDN", "CNR", "DBSS", "IBKL", "IDBI", "IDFB", "INDB", "SYNB", "TMB", "UCB", "UTIB", "AXIS"];
     
                     arr.forEach((object,index) => {
                         var isBankNameMatch = bankNames.filter((item) => object.address.toUpperCase().indexOf(item) !== -1);

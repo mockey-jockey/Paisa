@@ -23,6 +23,10 @@ export default BankNameObj = {
         name: 'Bank of India',
         logo: require('../logo/BKID.jpg')
     },
+    'BOI': {
+        name: 'Bank of India',
+        logo: require('../logo/BKID.jpg')
+    },
     'CBI': {
         name: 'Central Bank of India',
         logo: require('../logo/CBIN.jpeg')
@@ -71,7 +75,7 @@ export default BankNameObj = {
         name: 'State Bank of India',
         logo: require('../logo/SBIN.png')
     },
-    'UBIN': {
+    'UBI': {
         name: 'Union Bank of India',
         logo: require('../logo/UBIN.png')
     },
@@ -87,7 +91,7 @@ export default BankNameObj = {
         name: 'Dena Bank',
         logo: require('../logo/BKDN.png')
     },
-    'CNRB': {
+    'CNR': {
         name: 'Canara Bank',
         logo: require('../logo/CNRB.jpg')
     },
@@ -96,6 +100,10 @@ export default BankNameObj = {
         logo: require('../logo/DBSS.png')
     },
     'IBKL': {
+        name: 'IDBI Bank',
+        logo: require('../logo/IBKL.png')
+    },
+    'IDBI': {
         name: 'IDBI Bank',
         logo: require('../logo/IBKL.png')
     },
@@ -111,11 +119,11 @@ export default BankNameObj = {
         name: 'Syndicate Bank',
         logo: require('../logo/SYNB.png')
     },
-    'TMBL': {
+    'TMB': {
         name: 'Tamilnad Mercantile Bank Ltd',
         logo: require('../logo/TMBL.jpeg')
     },
-    'UCBA': {
+    'UCB': {
         name: 'UCO Bank',
         logo: require('../logo/UCBA.png')
     },
