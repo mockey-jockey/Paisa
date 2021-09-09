@@ -76,6 +76,7 @@ const BankTransaction = (props) => {
           }
         }
     });
+    // console.log(JSON.stringify(bankList));
     setTransactionDetails(bankList);
   }
   const _retrieveData = async (minDate,maxDate) => {
@@ -155,6 +156,7 @@ const BankTransaction = (props) => {
   const RenderBankTransactions = ({type}) => {
     const banks = Object.keys(transactionDetails);
     const availBalance = props.route.params.availBalance;
+    console.log(type)
     if(banks.length){
       return (<View style={styles(theme).flexView}>{banks.map((item,index) => {
         const transactions = transactionDetails[item][type];
@@ -215,7 +217,7 @@ const BankTransaction = (props) => {
         <View style={styles(theme).flexView}>
           {active === 'All' && <RenderBankTransactions type="transactions" />}
           {active === 'Income' && <RenderBankTransactions type="income" />}
-          {active === 'Expense' && <RenderBankTransactions type="Expense" />}
+          {active === 'Expense' && <RenderBankTransactions type="expense" />}
           {active === 'Others' && <RenderBankTransactions type="others" />}
         </View>
         <View style={{bottom:0}}>
@@ -230,7 +232,7 @@ const BankTransaction = (props) => {
                   },
                   label: active === 'All' ? {
                     color: theme.dark.primaryColor,
-                    fontWeight:'bold',
+                    fontFamily: 'Roboto-Bold',
                     width:50
                   } : {
                     color: theme.light.primaryColor,
@@ -249,7 +251,7 @@ const BankTransaction = (props) => {
                   },
                   label: active === 'Income' ? {
                     color: theme.dark.primaryColor,
-                    fontWeight:'bold',
+                    fontFamily: 'Roboto-Bold',
                     width:50
                   } : {
                     color: theme.dark.secondaryColor,
@@ -264,18 +266,16 @@ const BankTransaction = (props) => {
                 label="Expense"
                 style={{
                   icon:{
-                    color: active === 'Expanse' ? theme.light.primaryColor : theme.light.secondaryColor
+                    color: active === 'Expense' ? theme.light.primaryColor : theme.light.secondaryColor
                   },
-                  label: active === 'Expanse' ? {
+                  label: active === 'Expense' ? {
                     color: theme.dark.primaryColor,
-                    fontWeight:'bold',
-                    width:54
+                    fontFamily: 'Roboto-Bold',
                   } : {
                     color: theme.dark.secondaryColor,
-                    width:50
                   }
                 }}
-                onPress={() => setActive('Expanse')}
+                onPress={() => setActive('Expense')}
             />
             <BottomNavigation.Action
                 key="Others"
@@ -287,7 +287,7 @@ const BankTransaction = (props) => {
                   },
                   label: active === 'Others' ? {
                     color: theme.dark.primaryColor,
-                    fontWeight:'bold',
+                    fontFamily: 'Roboto-Bold',
                     width:50
                   } : {
                     color: theme.dark.secondaryColor,

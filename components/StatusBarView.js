@@ -92,7 +92,7 @@ const StatusBarView = (props) => {
             </VictoryGroup>
             <VictoryAxis crossAxis style={{
               axis: {stroke: "none"},
-              tickLabels: {fontSize: 20,fill: theme.palette.primaryColor}
+              tickLabels: {fontSize: 20,fill: theme.palette.primaryColor, fontFamily: 'Roboto-Medium'}
             }}/> 
           </VictoryChart>
         </G>

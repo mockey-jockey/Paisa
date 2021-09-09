@@ -6,7 +6,8 @@ import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
 const StatusLineView = (props) => {
     const theme = useContext(ThemeContext);
-    const { primaryColor } = theme.palette;
+    // const { primaryColor } = theme.palette;
+    const primaryColor = '#eae2df';
     
     var points = JSON.parse(props.lastSixMonthsExpanse);
     points = points.length ? points : [0,0,0,0,0,0];
@@ -15,7 +16,7 @@ const StatusLineView = (props) => {
         datasets: [
             {
                 data: points,
-                color: () => theme.dark.secondaryColor, // optional
+                color: () => "#bfbee0",//theme.dark.secondaryColor, // optional
             }
         ],
     };
@@ -33,9 +34,9 @@ const StatusLineView = (props) => {
             strokeWidth: "2",
             stroke: 'white',
         },
-        backgroundGradientFrom: theme.dark.primaryColor,
+        backgroundGradientFrom: "#3d338c",//theme.dark.primaryColor,
         backgroundGradientFromOpacity: 1,
-        backgroundGradientTo: theme.dark.primaryColor,
+        backgroundGradientTo: "#3d338c",//theme.dark.primaryColor,
         backgroundGradientToOpacity: 1,
         color: (opacity = 0) => `rgba(63, 81, 181, ${opacity})`,
         strokeWidth: 1, // optional, default 3
@@ -69,7 +70,7 @@ const StatusLineView = (props) => {
                     top: item.y - 24, // <--- relevant to height / width (
                     left: item.x - 10 // <--- width / 2
                 }}
-                ><Text key={item.index} style={{color:'white',fontSize:10}}>{value}</Text></View>)
+                ><Text key={item.index} style={{color:'white',fontSize:10,fontFamily: 'Roboto-Bold'}}>{value}</Text></View>)
             }}
             withHorizontalLabels={false}
             chartConfig={chartConfig}

@@ -7,6 +7,7 @@ const styles = (theme) => StyleSheet.create({
     container:{
         flex: 1,
         backgroundColor: theme.palette.primaryColor,
+        fontFamily: 'Roboto-Medium'
     },
     flexView: {
         flex: 1
@@ -22,7 +23,8 @@ const styles = (theme) => StyleSheet.create({
         alignItems:'center',
         alignContent:'center',
         alignSelf:'center',
-        textAlign:'center'
+        textAlign:'center',
+        fontFamily: 'Roboto-Medium'
     },
     headerViewStyle: {
         backgroundColor: theme.dark.primaryColor,
@@ -56,7 +58,7 @@ const styles = (theme) => StyleSheet.create({
         width:deviceWidth/6,
         textAlign:'center',
         padding:5,
-        fontWeight: "bold",
+        fontFamily: 'Roboto-Bold',
         color: theme.dark.primaryColor
     },
     selectedMonth: {
@@ -64,7 +66,7 @@ const styles = (theme) => StyleSheet.create({
         textAlign:'center',
         padding:5,
         color: "white",
-        fontWeight: "bold",
+        fontFamily: 'Roboto-Bold',
         backgroundColor: theme.dark.primaryColor
     },
     transactionsView: {
@@ -88,9 +90,9 @@ const styles = (theme) => StyleSheet.create({
         borderBottomWidth:0.8
     },
     bankName: {
-        fontWeight:'bold',
         width: deviceWidth-200,
         color: theme.dark.primaryColor,
+        fontFamily: 'Roboto-Bold'
     },
     bankLogo:{
         width: 15,
@@ -102,9 +104,9 @@ const styles = (theme) => StyleSheet.create({
     },
     bankBalance: {
         color: theme.light.primaryColor,
-        fontWeight:'bold',
         width:170,
-        textAlign:'right'
+        textAlign:'right',
+        fontFamily: 'Roboto-Bold'
     },
     textColor: {
         color: "rgba(0,0,0,0.7)",
@@ -133,11 +135,13 @@ const styles = (theme) => StyleSheet.create({
     },
     iconDown: {
         color: theme.dark.secondaryColor,
-        fontSize:15
+        fontSize:15,
+        fontFamily: 'Roboto-Medium'
     },
     iconUp: {
         color: theme.light.primaryColor,
         fontSize:15,
+        fontFamily: 'Roboto-Medium',
         height:10
     },
     transactionsFooter: {
@@ -151,7 +155,8 @@ const styles = (theme) => StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
         textAlignVertical: 'center',
-        color: theme.dark.primaryColor
+        color: theme.dark.primaryColor,
+        fontFamily: 'Roboto-Medium'
     },
     scrollViewDates: {
         display:'flex',
@@ -169,7 +174,7 @@ const styles = (theme) => StyleSheet.create({
         justifyContent:'center',
         alignSelf:'center',
         padding:8,
-        fontFamily: 'fontFamily-bold',
+        fontFamily: 'Roboto-Light',
         backgroundColor:theme.light.primaryColor,
         color:'white'
     },
@@ -192,12 +197,12 @@ const styles = (theme) => StyleSheet.create({
         borderBottomWidth:0.8
     },
     totalText: {
-        fontWeight:'bold',
+        fontFamily: 'Roboto-Bold',
         width:100,
         color: theme.light.primaryColor
     },
     totalValue: {
-        fontWeight:'bold',
+        fontFamily: 'Roboto-Bold',
         width:100,
         textAlign:"right",
         color: theme.dark.primaryColor
@@ -212,11 +217,13 @@ const styles = (theme) => StyleSheet.create({
     },
     noTransactionText: {
         fontSize:20,
-        opacity:0.8
+        opacity:0.8,
+        fontFamily: 'Roboto-Bold'
     },
     subText:{
         fontSize:15,
-        opacity:0.5
+        opacity:0.5,
+        fontFamily: 'Roboto-Medium'
     },
     headerImage:{
         width: "100%",
