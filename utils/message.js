@@ -233,8 +233,8 @@ const parseMessage = (object,type,index,name) => {
 // Function to read particular message from inbox with id
 export const getSMS = (minDate,maxDate) => {
     return new Promise((resolve, reject) => {
-        // console.log("minDate"+ minDate)
-        // console.log("maxDate"+ maxDate);
+        // console.log("minDate"+ new Date(minDate))
+        // console.log("maxDate"+ new Date(maxDate));
         var bankList = [];
         let filter = {
             box: 'inbox', // 'inbox' (default), 'sent', 'draft', 'outbox', 'failed', 'queued', and '' for all

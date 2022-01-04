@@ -79,11 +79,19 @@ const Dashboard = (props) => {
   },[readAccess]);
 
   const startDay = (y,m) => {
-    return new Date(y,m, 1).setHours(0,0,0,0);
+    if(new Date() < new Date(y,m,0)){
+      return new Date(y-1,m, 1).setHours(0,0,0,0);
+    }else{
+      return new Date(y,m, 1).setHours(0,0,0,0);
+    }
   }
 
   const lastDay = (y,m) => {
-    return  new Date(y, m +1, 0).getDate();
+    if(new Date() < new Date(y,m,0)){
+      return  new Date(y-1, m +1, 0).getDate();
+    }else{
+      return  new Date(y, m +1, 0).getDate();
+    }
   }
 
   const getMonth = (month) => {
@@ -101,8 +109,14 @@ const Dashboard = (props) => {
 
       for(var i = 6; i > 0; i -= 1) {
         d = new Date(today.getFullYear(), today.getMonth() - i, 1);
-        month.push(monthNames[d.getMonth()+1]);
+        var isValidMonth = monthNames[d.getMonth()+1];
+        if(isValidMonth){
+          month.push(monthNames[d.getMonth()+1]);
+        }else{
+          month.push(monthNames[i-1]);
+        }
       }
+      // console.log(month,"****")
       month = month.map((item) => item.substr(0,3));
       //month = month.map((item) => item.substr(0,3)).reverse();
       //month.unshift('Today');
@@ -113,7 +127,7 @@ const Dashboard = (props) => {
       var start = startDay(today.getFullYear(),previousSixthMonth);
       getTransactions(start,new Date().getTime(),month);
     } catch(error) {
-      console.log(`******${error}*******`);
+      console.log(`******${error}*******1`);
     }
   }
 
@@ -126,9 +140,12 @@ const Dashboard = (props) => {
     }else {
       var month = getMonth(month);
       var today = new Date();
+      var year = today.getFullYear();
       var start = startDay(today.getFullYear(),month);
-      
-      var end = new Date(today.getFullYear(), month, lastDay(today.getFullYear(),month));
+      if(new Date() < new Date(year,month,0)){
+        year = year - 1;
+      }
+      var end = new Date(year, month, lastDay(today.getFullYear(),month));
       end.setHours(23,59,59,999);
       _retrieveData(start,end.getTime());
     }
@@ -168,7 +185,7 @@ const Dashboard = (props) => {
       try {
           await AsyncStorage.setItem('transactions', data);
       } catch (error) {
-          console.log(`******${error}*******`);
+          console.log(`******${error}*******2`);
       }
   }
 
@@ -184,7 +201,7 @@ const Dashboard = (props) => {
           populateBankMessages(parsedTransactions);
         }
     } catch (error) {
-      console.log(`******${error}*******`);
+      console.log(`******${error}*******3`);
     }
   } 
 
