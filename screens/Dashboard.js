@@ -109,14 +109,16 @@ const Dashboard = (props) => {
 
       for(var i = 6; i > 0; i -= 1) {
         d = new Date(today.getFullYear(), today.getMonth() - i, 1);
-        var isValidMonth = monthNames[d.getMonth()+1];
+        var num = d.getMonth()+1;
+        num = num === 12 ? 0 : num;
+        var isValidMonth = monthNames[num];
         if(isValidMonth){
-          month.push(monthNames[d.getMonth()+1]);
+          month.push(monthNames[num]);
         }else{
           month.push(monthNames[i-1]);
         }
       }
-      // console.log(month,"****")
+      //console.log(month,"****")
       month = month.map((item) => item.substr(0,3));
       //month = month.map((item) => item.substr(0,3)).reverse();
       //month.unshift('Today');

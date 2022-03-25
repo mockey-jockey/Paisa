@@ -41,7 +41,11 @@ const BankTransaction = (props) => {
   const getDates = () => {
     const today = new Date();
     const month = getMonth(selectedValue);
-    const lastDayOfMonth = new Date(today.getFullYear(), month +1, 0).getDate();
+    var year = today.getFullYear();
+    if(new Date() < new Date(year,month,0)){
+      year = year - 1;
+    }
+    const lastDayOfMonth = new Date(year, month +1, 0).getDate();
     const values = ['All'];
     for(var i=1;i<=lastDayOfMonth;i++){
       values.push(i);
@@ -99,16 +103,24 @@ const BankTransaction = (props) => {
     if(day === 'All'){
       var month = getMonth(selectedValue);
       var today = new Date();
-      var start = new Date(today.getFullYear(),month, 1).setHours(0,0,0,0);
+      var year = today.getFullYear();
+      if(new Date() < new Date(year,month,0)){
+        year = year - 1;
+      }
+      var start = new Date(year,month, 1).setHours(0,0,0,0);
       const lastDayOfMonth = new Date(today.getFullYear(), month +1, 0).getDate();
-      var end = new Date(today.getFullYear(),month, lastDayOfMonth).setHours(23,59,59,999);
+      var end = new Date(year,month, lastDayOfMonth).setHours(23,59,59,999);
       _retrieveData(start,end);
     }else {
       var month = getMonth(selectedValue);
       var today = new Date();
-      var start = new Date(today.getFullYear(),month, day).setHours(0,0,0,0);
-      
-      var end = new Date(today.getFullYear(),month, day).setHours(23,59,59,999);
+      var year = today.getFullYear();
+      if(new Date() < new Date(year,month,0)){
+        year = year - 1;
+      }
+     
+      var start = new Date(year,month, day).setHours(0,0,0,0);
+      var end = new Date(year,month, day).setHours(23,59,59,999);
       _retrieveData(start,end);
     }
   }
