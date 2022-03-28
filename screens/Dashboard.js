@@ -275,7 +275,7 @@ const Dashboard = (props) => {
   }
 
   const viewTransactions = (_this,selectedBank) => {
-    props.route.params.theme(selectedBank);
+    props.route.params.theme(selectedBank || 'default');
     props.navigation.navigate('BankTransaction',{
       theme:props.route.params.theme,
       months: lastSixMonths,

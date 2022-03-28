@@ -40,6 +40,19 @@ export const themes = {
         secondaryColor: "#ffe0cd"
       },
     },
+    SBI: {
+      palette: {
+        primaryColor: '#eae2df',
+      },
+      dark: {
+        primaryColor: "#3d338c",
+        secondaryColor: "#bfbee0"
+      },
+      light: {
+        primaryColor: "#f9b087",
+        secondaryColor: "#ffe0cd"
+      },
+    },
     VYSA: {
       palette: {
         primaryColor: COLOR.indigo500,
